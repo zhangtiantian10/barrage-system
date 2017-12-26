@@ -6,7 +6,7 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import {Provider} from 'react-redux'
 import configureStore from './store'
 import App from './App';
-import Login from './User/Login'
+import Login from './User/LoginRegister'
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore()
@@ -19,6 +19,7 @@ ReactDOM.render(
 				<div>
 					<Route path="/login" component={Login} />
 					<Route exact path="/" component={App}/>
+					<Route path="/register" component={Login}/>
 				</div>
 			</Router>
 		</AppContainer>
