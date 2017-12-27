@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import {Input, Form, Icon, Button} from 'antd'
 import cssModules from 'react-css-modules'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
+import * as action from './action'
 import styles from './index.scss'
 
 const FormItem = Form.Item
@@ -17,6 +19,8 @@ class Login extends Component {
 				console.log(values)
 			}
 		})
+
+		this.props.actions.login()
 	}
 
 	render() {
@@ -48,4 +52,16 @@ class Login extends Component {
 	}
 }
 
-export default connect()(Form.create()(cssModules(Login, styles)))
+const mapStateToProps = (state) => {
+	return {
+		isLogin: state.user.login.isSuccess
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(action, dispatch)
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(cssModules(Login, styles)))

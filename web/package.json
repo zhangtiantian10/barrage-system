@@ -2,8 +2,17 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8080",
+      "secure": false,
+      "changeOrigin": true
+    }
+  },
   "dependencies": {
+    "antd": "^3.0.3",
     "autoprefixer": "7.1.6",
+    "axios": "^0.17.1",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
@@ -25,6 +34,8 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "node-sass": "^4.7.2",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
@@ -35,6 +46,7 @@
     "react-css-modules": "^4.7.1",
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
+    "redux-thunk": "^2.2.0",
     "sass": "^1.0.0-beta.4",
     "sass-loader": "^6.0.6",
     "style-loader": "0.19.0",
@@ -93,7 +105,6 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "antd": "^3.0.3",
     "babel-plugin-import": "^1.6.3",
     "extract-text-webpack-plugin": "^3.0.2",
     "history": "^4.7.2",
