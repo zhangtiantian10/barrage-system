@@ -1,0 +1,20 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: BarrageSystem
+    ports:
+      - 3307:3306
+    environment:
+      - LANG=C.UTF-8
+      - TERM=dumb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=BarrageSystem
+      - MYSQL_PASSWORD=111111
+      - MYSQL_USER=BarrageSystem
+    networks:
+      main:
+        aliases:
+          - BarrageSystem
+networks:
+  main:
