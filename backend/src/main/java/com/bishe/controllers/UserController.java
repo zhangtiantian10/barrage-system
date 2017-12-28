@@ -6,13 +6,14 @@ import com.bishe.common.exceptions.ConflictException;
 import com.bishe.common.exceptions.NotFoundException;
 import com.bishe.entities.User;
 import com.bishe.repositories.UserRepository;
+import com.bishe.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +22,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    private UserService userService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getUser(@PathVariable Long id) {
@@ -42,7 +45,10 @@ public class UserController {
                     String.format("user %s already exists", user.getUserName()));
         }
         try {
-            return new ResponseEntity(userRepository.save(user), HttpStatus.CREATED);
+            String password = new BCryptPasswordEncoder().encode(user.getPassword().trim());
+            user.setPassword(password);
+            userRepository.save(user);
+            return new ResponseEntity(user.getPassword(), HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestException(ErrorCode.FAILED_TO_CREATE_USER,
                     String.format("failed to create user %s", user.getUserName()), e);
