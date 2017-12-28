@@ -42,7 +42,8 @@ public enum ErrorCode {
     INVALID_PARAMETER(30029, "Invalid parameter"),
     INVALID_ENUM_VALUE(30030, "invalid enum value"),
     CONTACT_PHONE_NOT_PROVIDED(30031,"should provide at least one phone number"),
-    MISSING_ENTERPRISE_ID(30032, "missing enterprise_id");
+    MISSING_ENTERPRISE_ID(30032, "missing enterprise_id"),
+    INVALID_USERNAME_PASSWORD(31012, "invalid username or password");
 
     private static final Set<String> ERROR_CODE_VALUES = ImmutableSet.copyOf(
             Arrays.stream(values()).map(Enum::toString).collect(Collectors.toSet())
@@ -71,6 +72,6 @@ public enum ErrorCode {
 
     @JsonValue
     public ErrorMessage toErrorMessage() {
-        return new ErrorMessage(code, message, new HashMap<>());
+        return new ErrorMessage(code, message);
     }
 }

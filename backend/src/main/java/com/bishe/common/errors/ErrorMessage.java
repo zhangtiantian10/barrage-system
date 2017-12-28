@@ -11,14 +11,38 @@ import java.util.Map;
 public class ErrorMessage {
     private int code;
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Map<String, Object> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Map<String, Object> details) {
+        this.details = details;
+    }
+
     private String message;
 
     private Map<String, Object> details;
 
-    public ErrorMessage(int code, String message, Map<String, Object> details) {
+    public ErrorMessage(int code, String message) {
         this.code = code;
         this.message = message;
-        this.details = details;
+        this.details = new HashMap<>();
     }
 
     public <T> ErrorMessage withDetails(String key, T value) {

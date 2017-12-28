@@ -4,8 +4,11 @@ import com.bishe.common.errors.ErrorCode;
 import lombok.Getter;
 
 public class HttpException extends RuntimeException {
-    @Getter
     private ErrorCode errorCode;
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
 
     public HttpException(ErrorCode code, String message) {
         super(message);

@@ -4,6 +4,7 @@ import com.bishe.common.errors.ErrorCode;
 import com.bishe.common.exceptions.BadRequestException;
 import com.bishe.common.exceptions.ConflictException;
 import com.bishe.common.exceptions.NotFoundException;
+import com.bishe.common.exceptions.UserNotFoundException;
 import com.bishe.entities.User;
 import com.bishe.repositories.UserRepository;
 import com.bishe.services.UserService;
@@ -53,5 +54,21 @@ public class UserController {
             throw new BadRequestException(ErrorCode.FAILED_TO_CREATE_USER,
                     String.format("failed to create user %s", user.getUserName()), e);
         }
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<String> login(@RequestBody User info) {
+        Optional<User> user = userRepository.findByUserName(info.getUserName());
+        if (!user.isPresent()) {
+            throw new UserNotFoundException(ErrorCode.INVALID_USERNAME_PASSWORD);
+        }
+
+        String password = user.get().getPassword();
+        boolean flag = new BCryptPasswordEncoder().matches(info.getPassword(), password);
+        if(flag) {
+            return ResponseEntity.ok("");
+        }
+
+        throw new UserNotFoundException(ErrorCode.INVALID_USERNAME_PASSWORD);
     }
 }
