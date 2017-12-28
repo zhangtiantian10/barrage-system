@@ -20,7 +20,7 @@ class Login extends Component {
 			}
 		})
 
-		this.props.actions.login()
+		this.props.actions.register()
 	}
 
 	render() {

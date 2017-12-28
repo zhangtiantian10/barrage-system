@@ -9,7 +9,8 @@ export default (interceptor) => {
 			return response
 		},
 		function (error) {
-			switch (error.status) {
+			const {response} = error
+			switch (response.status) {
 				case 401:
 					// const code = get(error, 'data.code')
 					notification.open({
@@ -34,10 +35,11 @@ export default (interceptor) => {
 				default:
 					break
 			}
-			if (!error.message) {
+			if (!response.message) {
 				error.message = '业务系统异常'
 			}
-			return Promise.reject(error)
+
+			return Promise.reject(response)
 		}
 	)
 
