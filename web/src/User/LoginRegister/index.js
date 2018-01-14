@@ -34,6 +34,8 @@ class LoginRegister extends Component {
 
 		const CurrentPage = MAP_CURRENT_PAGES[this.state.current] || Login
 		return (<div styleName="login-register">
+				<div styleName="background">
+				</div>
 				<Row>
 					<Col span={8} offset={8} styleName="login-register-content">
 						<Menu

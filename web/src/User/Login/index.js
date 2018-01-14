@@ -16,7 +16,10 @@ class Login extends Component {
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				console.log(values)
+				this.props.actions.login(values)
+					.then(() => {
+							console.log('chenggong')
+					})
 			}
 		})
 

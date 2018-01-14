@@ -1,9 +1,29 @@
-.login-register {
+.background {
+	position: absolute;
+	height: 800px;
+	background: url('./images/background.jpg');
+	width: 100%;
+	background-repeat:no-repeat;
+	background-size: 100% 100%;
+	z-index: -1;
+}
 
-	margin-top: 100px;
+.background:after{
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: "";
+	background-color: rgba(255, 255, 255, 0.1);
+	z-index: -1;
+	height: 800px;
+	width: 100%;
+}
+
+.login-register {
 
 	.login-register-content {
 		border: 1px solid #ebedf0;
+		margin-top: 100px;
 
 		.menu-item {
 			width: 50%;
