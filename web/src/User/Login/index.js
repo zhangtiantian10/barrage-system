@@ -3,6 +3,9 @@ import {Input, Form, Icon, Button} from 'antd'
 import cssModules from 'react-css-modules'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import Stomp from "@stomp/stompjs";
+import SockJS from 'sockjs-client-web';
+
 
 import * as action from './action'
 import styles from './index.scss'
@@ -13,17 +16,26 @@ class Login extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault()
+		var socket = new SockJS('http://localhost:8081/websocket');
+		const socketClient = Stomp.over(socket);
+		socketClient.connect({}, function (frame) {
+			console.log('Connected: ' + frame);
+			socketClient.subscribe('/message/barrage', function (greeting) {
+				console.log(JSON.parse(greeting.body));
+			});
+			socketClient.send("/api/barrage", {}, JSON.stringify({'name': "123"}));
+		});
 
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				this.props.actions.login(values)
 					.then(() => {
-							console.log('chenggong')
+						console.log('chenggong')
 					})
 			}
 		})
 
-		this.props.actions.register()
+		// this.props.actions.register()
 	}
 
 	render() {

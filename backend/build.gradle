@@ -16,7 +16,6 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 //apply plugin: 'war'
 
-
 repositories {
     jcenter()
     maven { url "http://repo.spring.io/snapshot" }
@@ -28,9 +27,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
 
     compile('com.google.guava:guava:23.0')
     compile('org.projectlombok:lombok')
 
     testCompile("junit:junit")
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.1.15'
 }

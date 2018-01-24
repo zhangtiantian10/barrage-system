@@ -4,7 +4,7 @@ services:
     image: mysql:5.7
     container_name: BarrageSystem
     ports:
-      - 3307:3306
+      - 3310:3306
     environment:
       - LANG=C.UTF-8
       - TERM=dumb
