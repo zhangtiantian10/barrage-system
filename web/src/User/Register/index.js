@@ -117,10 +117,14 @@ class Login extends Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {}
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(action, dispatch)
 	}
 }
 
-export default connect(() => {},mapDispatchToProps)(Form.create()(cssModules(Login, styles)))
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(cssModules(Login, styles)))

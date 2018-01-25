@@ -1,6 +1,6 @@
 import {notification} from 'antd'
 import {get} from 'lodash'
-import {AUTHENTICATION_ERROR_MAP, FORBIDDEN_ERROR_MAP} from './constant'
+import {AUTHENTICATION_ERROR_MAP, FORBIDDEN_ERROR_MAP, REGISTER_ERROR_MAP} from './constant'
 
 export default (interceptor) => {
 	interceptor.response.use(function (response) {
@@ -10,12 +10,13 @@ export default (interceptor) => {
 			return response
 		},
 		function (error) {
+		let errorCode = '';
 		console.log(error.response)
 			const {response} = error
 			switch (response.status) {
 				case 401:
-					const code = get(response, 'data.code')
-					const authError = AUTHENTICATION_ERROR_MAP[code]
+					errorCode = get(response, 'data.code')
+					const authError = AUTHENTICATION_ERROR_MAP[errorCode]
 					if(authError) {
 						notification.open({
 							message: '错误',
@@ -31,7 +32,7 @@ export default (interceptor) => {
 					}
 					break
 				case 403:
-					const errorCode = get(response, 'data.code')
+					errorCode = get(response, 'data.code')
 					const forbiddenError = FORBIDDEN_ERROR_MAP[errorCode]
 					if (forbiddenError) {
 						notification.open({
@@ -42,6 +43,19 @@ export default (interceptor) => {
 							window.location.href = '/login'
 						}, 200)
 					}
+					break
+				case 409:
+					errorCode = get(response, 'data.code')
+					const confictError = REGISTER_ERROR_MAP[errorCode]
+					if (confictError) {
+						notification.open({
+							message: '错误',
+							description: confictError + ',请重新填写'
+						})
+					}
+					setTimeout(() => {
+						window.location.href = '/register'
+					}, 2000)
 					break
 				default:
 					break

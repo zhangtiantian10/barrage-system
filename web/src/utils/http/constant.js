@@ -13,3 +13,7 @@ export const FORBIDDEN_ERROR_MAP = {
 	10004: '当前用户无此权限',
 	30022: '当前用户无此权限'
 }
+
+export const REGISTER_ERROR_MAP = {
+	30006: '当前用户名已经存在'
+}
