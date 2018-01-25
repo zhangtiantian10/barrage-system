@@ -6,9 +6,9 @@ export const login = (values) => {
 	}
 }
 
-export const register = () => {
+export const register = (data) => {
 	return dispatch => {
-		return httpClient.post(`/user/register`, {userName: '张5', name: 'zhang', password: '123456',telPhone:'918374938'})
+		return httpClient.post(`/user/register`, data)
 			.then(res => {
 				console.log(res)
 			})

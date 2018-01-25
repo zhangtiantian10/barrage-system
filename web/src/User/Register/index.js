@@ -1,34 +1,114 @@
 import React, {Component} from 'react'
-import {Input, Form, Icon, Button} from 'antd'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {Input, Form, Button} from 'antd'
 import cssModules from 'react-css-modules'
 
 import styles from './index.scss'
+import * as action from '../Login/action'
 
 const FormItem = Form.Item
 
 class Login extends Component {
 
+	handleSubmit = (e) => {
+		e.preventDefault()
+
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				this.props.actions.register(values)
+					.then(() => {
+						console.log('chenggong')
+					})
+			}
+		})
+	}
+
 	render() {
 		const {getFieldDecorator} = this.props.form
 
+		const formItemLayout = {
+			labelCol: {
+				xs: { span: 24 },
+				sm: { span: 6 },
+			},
+			wrapperCol: {
+				xs: { span: 24 },
+				sm: { span: 16 },
+			},
+		};
+
+		const buttonLayout = {
+			wrapperCol: {
+				sm: {
+					span: 16,
+					offset: 6
+				}
+			}
+		}
+
 		return (<div styleName="login">
-			<Form styleName="form">
-				<FormItem>
+			<Form styleName="form" onSubmit={this.handleSubmit.bind(this)}>
+				<FormItem
+					{...formItemLayout}
+					label="用户名"
+				>
 					{getFieldDecorator('userName', {
-						rules: [{required: true, message: '请填写用户名或手机号！'}],
+						rules: [{
+							required: true,
+							message: '请输入用户名!',
+						}, {
+							min: 6,
+							message: '不能少于6个字符'
+						}],
 					})(
-						<Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="用户名/手机号"/>
+						<Input type="text" placeholder="不能少于6个字符"/>
 					)}
 				</FormItem>
-				<FormItem>
+				<FormItem
+					{...formItemLayout}
+					label="姓名"
+				>
+					{getFieldDecorator('name', {
+						rules: [],
+					})(
+						<Input type="text" placeholder="请填写真实姓名"/>
+					)}
+				</FormItem>
+				<FormItem
+					{...formItemLayout}
+					label="密码"
+				>
 					{getFieldDecorator('password', {
-						rules: [{required: true, message: '请填写用户密码！'}],
+						rules: [{required: true, message: '请输入用户密码!'}],
 					})(
-						<Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password" placeholder="密码"/>
+						<Input type="password" placeholder="不能少于6个字符"/>
 					)}
 				</FormItem>
-				<FormItem>
-					<Button type="primary" htmlType="submit" className="login-form-button">
+				<FormItem
+					{...formItemLayout}
+					label="确认密码"
+				>
+					{getFieldDecorator('checkPassword', {
+						rules: [{required: true, message: '请再次输入你的密码!'}]
+					})(
+						<Input placeholder="再次输入密码" type="password"/>
+					)}
+				</FormItem>
+				<FormItem
+					{...formItemLayout}
+					label="电话"
+				>
+					{getFieldDecorator('telPhone', {
+						rules: [{required: true, message: '请输入电话！'}]
+					})(
+						<Input type="text" placeholder=""/>
+					)}
+				</FormItem>
+				<FormItem
+					{...buttonLayout}
+				>
+					<Button type="primary" htmlType="submit">
 						注册
 					</Button>
 				</FormItem>
@@ -37,4 +117,10 @@ class Login extends Component {
 	}
 }
 
-export default Form.create()(cssModules(Login, styles))
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(action, dispatch)
+	}
+}
+
+export default connect(() => {},mapDispatchToProps)(Form.create()(cssModules(Login, styles)))
