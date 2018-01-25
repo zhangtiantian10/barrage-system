@@ -11,6 +11,13 @@ const FormItem = Form.Item
 
 class Login extends Component {
 
+	constructor(props) {
+		super(props)
+		this.state = {
+			passwordIsSame: false
+		}
+	}
+
 	handleSubmit = (e) => {
 		e.preventDefault()
 
@@ -22,6 +29,15 @@ class Login extends Component {
 					})
 			}
 		})
+	}
+
+	checkPassword = (rule, value, callback) => {
+		const form = this.props.form;
+		if (value && value !== form.getFieldValue('password')) {
+			callback('两次输入的密码不一致，请重新输入!');
+		} else {
+			callback();
+		}
 	}
 
 	render() {
@@ -47,7 +63,7 @@ class Login extends Component {
 			}
 		}
 
-		return (<div styleName="login">
+		return (<div styleName="register">
 			<Form styleName="form" onSubmit={this.handleSubmit.bind(this)}>
 				<FormItem
 					{...formItemLayout}
@@ -80,7 +96,13 @@ class Login extends Component {
 					label="密码"
 				>
 					{getFieldDecorator('password', {
-						rules: [{required: true, message: '请输入用户密码!'}],
+						rules: [{
+							required: true,
+							message: '请输入用户密码!'
+						}, {
+							min: 6,
+							message: '不能少于6个字符！'
+						}],
 					})(
 						<Input type="password" placeholder="不能少于6个字符"/>
 					)}
@@ -90,7 +112,12 @@ class Login extends Component {
 					label="确认密码"
 				>
 					{getFieldDecorator('checkPassword', {
-						rules: [{required: true, message: '请再次输入你的密码!'}]
+						rules: [{
+							required: true,
+							message: '请再次输入你的密码!'
+						}, {
+							validator: this.checkPassword
+						}]
 					})(
 						<Input placeholder="再次输入密码" type="password"/>
 					)}
