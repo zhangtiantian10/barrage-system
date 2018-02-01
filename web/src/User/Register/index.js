@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {Input, Form, Button} from 'antd'
 import cssModules from 'react-css-modules'
@@ -25,7 +26,7 @@ class Login extends Component {
 			if (!err) {
 				this.props.actions.register(values)
 					.then(() => {
-						console.log('chenggong')
+						this.props.history.push('/')
 					})
 			}
 		})
@@ -154,4 +155,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(cssModules(Login, styles)))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form.create()(cssModules(Login, styles))))

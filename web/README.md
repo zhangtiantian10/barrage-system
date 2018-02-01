@@ -1249,7 +1249,7 @@ Different projects choose different testing tradeoffs based on how often compone
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from HomePage;
 
 it('renders without crashing', () => {
   const div = document.createElement('div');

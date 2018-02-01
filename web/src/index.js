@@ -5,7 +5,7 @@ import {AppContainer} from 'react-hot-loader'
 import createBrowserHistory from 'history/createBrowserHistory'
 import {Provider} from 'react-redux'
 import configureStore from './store'
-import App from './App';
+import HomePage from './HomePage';
 import Login from './User/LoginRegister'
 import registerServiceWorker from './registerServiceWorker';
 
@@ -18,7 +18,7 @@ ReactDOM.render(
 			<Router history={history}>
 				<div>
 					<Route path="/login" component={Login} />
-					<Route exact path="/" component={App}/>
+					<Route exact path="/" component={HomePage}/>
 					<Route path="/register" component={Login}/>
 				</div>
 			</Router>
