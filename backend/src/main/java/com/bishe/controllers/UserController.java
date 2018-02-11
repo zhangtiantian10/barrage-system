@@ -8,19 +8,27 @@ import com.bishe.common.exceptions.UserNotFoundException;
 import com.bishe.entities.User;
 import com.bishe.repositories.UserRepository;
 import com.bishe.services.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
-
+    @Value("${zt.upload-path}")
+    private String webUploadPath;
     @Autowired
     private UserRepository userRepository;
 
@@ -70,5 +78,29 @@ public class UserController {
         }
 
         throw new UserNotFoundException(ErrorCode.INVALID_USERNAME_PASSWORD);
+    }
+
+    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
+    public ResponseEntity uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
+        System.out.println(file);
+        String temp = "static/images" + File.separator + "upload" + File.separator;
+
+        String fileName = file.getOriginalFilename();
+        String extensionName = StringUtils.substringAfter(fileName, ".");
+
+        String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
+
+        String filePath = webUploadPath.concat(temp);
+
+        File dest = new File(filePath, newFileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+
+        file.transferTo(dest);
+
+        String[] array = {filePath, newFileName};
+
+        return new ResponseEntity<>(array, HttpStatus.OK);
     }
 }
