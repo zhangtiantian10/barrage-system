@@ -3,6 +3,7 @@ import {Input, Form, Icon, Button} from 'antd'
 import cssModules from 'react-css-modules'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {withRouter} from 'react-router'
 
 import * as action from './action'
 import styles from './index.scss'
@@ -18,7 +19,7 @@ class Login extends Component {
 			if (!err) {
 				this.props.actions.login(values)
 					.then(() => {
-
+						this.props.history.push('/')
 					})
 			}
 		})
@@ -67,4 +68,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(cssModules(Login, styles)))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form.create()(cssModules(Login, styles))))

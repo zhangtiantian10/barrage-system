@@ -56,6 +56,7 @@ public class UserController {
         try {
             String password = new BCryptPasswordEncoder().encode(user.getPassword().trim());
             user.setPassword(password);
+            user.setAvatar("1517647635584.jpg");
             userRepository.save(user);
             return new ResponseEntity(user.getPassword(), HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody User info) {
+    public ResponseEntity login(@RequestBody User info) {
         Optional<User> user = userRepository.findByUserName(info.getUserName());
         if (!user.isPresent()) {
             throw new UserNotFoundException(ErrorCode.INVALID_USERNAME_PASSWORD);
@@ -74,14 +75,14 @@ public class UserController {
         String password = user.get().getPassword();
         boolean flag = new BCryptPasswordEncoder().matches(info.getPassword(), password);
         if(flag) {
-            return ResponseEntity.ok("");
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
         }
 
         throw new UserNotFoundException(ErrorCode.INVALID_USERNAME_PASSWORD);
     }
 
-    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
-    public ResponseEntity uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
+    @RequestMapping(value = "/avatar/{id}", method = RequestMethod.POST)
+    public ResponseEntity uploadAvatar(@RequestParam("file") MultipartFile file, @PathVariable Long id) throws IOException {
         System.out.println(file);
         String temp = "static/images" + File.separator + "upload" + File.separator;
 
@@ -101,6 +102,9 @@ public class UserController {
 
         String[] array = {filePath, newFileName};
 
+        User user = userRepository.findOne(id);
+        user.setAvatar(newFileName);
+        userRepository.save(user);
         return new ResponseEntity<>(array, HttpStatus.OK);
     }
 }

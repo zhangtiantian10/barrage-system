@@ -4,6 +4,7 @@ import {AUTHENTICATION_ERROR_MAP, FORBIDDEN_ERROR_MAP, REGISTER_ERROR_MAP} from 
 
 export default (interceptor) => {
 	interceptor.response.use(function (response) {
+		console.log(response, '/////////////////')
 			// if (response.headers.authorization) {
 			//   cookie.set('TOKEN', response.headers.authorization)
 			// }

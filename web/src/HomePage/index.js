@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
 import cssModules from 'react-css-modules'
-import { Layout, Breadcrumb, } from 'antd';
+import { Layout, Breadcrumb, message} from 'antd';
+import Cookies from 'js-cookie'
+import {withRouter} from 'react-router'
 
 import styles from './index.scss';
 import Menus from './Menus'
+import UserInfo from "./UserInfo";
 
 const { Header, Content, Footer, Sider } = Layout;
+
+const MAP_CONTENT_COMPONENT = {
+	user: UserInfo,
+    liveData: "",
+    douYu: ""
+}
 
 class HomePage extends Component {
 	state = {
 		collapsed: false,
 		viewType: 'user'
 	};
+
+	componentDidMount() {
+		if (!Cookies.getJSON("user")) {
+			message.error('请先登录')
+			setTimeout(() => {
+				this.props.history.push('/login')
+			}, 10)
+		}
+	}
 	onCollapse = (collapsed) => {
 		this.setState({ collapsed });
 	}
@@ -20,6 +38,8 @@ class HomePage extends Component {
 		this.setState({viewType})
 	}
 	render() {
+		const View = MAP_CONTENT_COMPONENT[this.state.viewType] || HomePage
+
 		return (
 			<Layout style={{ minHeight: '100vh' }}>
 				<Sider
@@ -37,7 +57,7 @@ class HomePage extends Component {
 							<Breadcrumb.Item>Bill</Breadcrumb.Item>
 						</Breadcrumb>
 						<div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-							{this.state.viewType}
+							<View/>
 						</div>
 					</Content>
 				</Layout>
@@ -46,4 +66,4 @@ class HomePage extends Component {
 	}
 }
 
-export default cssModules(HomePage, styles);
+export default withRouter(cssModules(HomePage, styles));
