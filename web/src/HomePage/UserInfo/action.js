@@ -12,3 +12,16 @@ export const getUserInfo = (id) => {
 		return httpClient.get(`/user/${id}`)
 	}
 }
+
+export const putUser = (user) => {
+	return dispatch => {
+		return httpClient.put(`/user`, user)
+	}
+}
+
+export const changePassword = (id, password) => {
+	console.log(password, '=========')
+	return dispatch => {
+		return httpClient.put(`/user/${id}/password`, {password})
+	}
+}

@@ -65,6 +65,29 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseEntity putUser(@RequestBody User user) {
+        User oldUser = userRepository.findOne(user.getId());
+
+        user.setPassword(oldUser.getPassword());
+
+        userRepository.save(user);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/{id}/password", method = RequestMethod.PUT)
+    public ResponseEntity putPassword(@RequestBody User user, @PathVariable Long id) {
+
+        User oldUser = userRepository.findOne(id);
+
+        oldUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword().trim()));
+
+        userRepository.save(oldUser);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody User info) {
         Optional<User> user = userRepository.findByUserName(info.getUserName());

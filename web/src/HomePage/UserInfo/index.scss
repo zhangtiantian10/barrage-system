@@ -1,0 +1,17 @@
+.user-info {
+	.user-col {
+		padding-top: 30px;
+		.username-style {
+			font-size: 30px;
+			color: black;
+			font-weight: bold;
+		}
+
+		.modify-username-icon {
+			padding-left: 10px;
+			font-size: 20px;
+			cursor: pointer;
+			color: #1890ff;
+		}
+	}
+}
