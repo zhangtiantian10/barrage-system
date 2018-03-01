@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -26,6 +27,18 @@ public class User {
 
     @NotNull
     private String avatar;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private Set<LiveRoom> liveRooms;
+
+    public Set<LiveRoom> getLiveRooms() {
+        return liveRooms;
+    }
+
+    public void setLiveRooms(Set<LiveRoom> liveRooms) {
+        this.liveRooms = liveRooms;
+    }
 
     public Long getId() {
         return id;

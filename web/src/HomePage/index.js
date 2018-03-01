@@ -7,13 +7,17 @@ import {withRouter} from 'react-router'
 import styles from './index.scss';
 import Menus from './Menus'
 import UserInfo from "./UserInfo";
+import LiveData from './LiveData'
+import MyLive from './MyLive'
+import CreateLive from './CreateLive'
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const MAP_CONTENT_COMPONENT = {
 	user: UserInfo,
-    liveData: "",
-    douYu: ""
+	liveData: LiveData,
+	createLive: CreateLive,
+	myLive: MyLive
 }
 
 class HomePage extends Component {

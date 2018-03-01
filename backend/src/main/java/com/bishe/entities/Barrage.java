@@ -2,6 +2,8 @@ package com.bishe.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "barrage")
@@ -10,8 +12,7 @@ public class Barrage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    private Long roomId;
+    private Long liveRoomId;
 
     @NotNull
     private String sender;
@@ -19,14 +20,23 @@ public class Barrage {
     @NotNull
     private String content;
 
-    @NotNull
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     private Long gift;
 
     public Barrage() {
     }
 
-    public Barrage(Long roomId, String sender, String content, Long gift) {
-        this.roomId = roomId;
+    public Barrage(Long liveRoomId, String sender, String content, Long gift) {
+        this.liveRoomId = liveRoomId;
         this.sender = sender;
         this.content = content;
         this.gift = gift;
@@ -40,12 +50,12 @@ public class Barrage {
         this.id = id;
     }
 
-    public Long getRoomId() {
-        return roomId;
+    public Long getLiveRoomId() {
+        return liveRoomId;
     }
 
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
+    public void setLiveRoomId(Long liveRoomId) {
+        this.liveRoomId = liveRoomId;
     }
 
     public String getSender() {

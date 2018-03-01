@@ -5,6 +5,7 @@ import com.bishe.common.exceptions.BadRequestException;
 import com.bishe.common.exceptions.ConflictException;
 import com.bishe.common.exceptions.NotFoundException;
 import com.bishe.common.exceptions.UserNotFoundException;
+import com.bishe.entities.LiveRoom;
 import com.bishe.entities.User;
 import com.bishe.repositories.UserRepository;
 import com.bishe.services.UserService;

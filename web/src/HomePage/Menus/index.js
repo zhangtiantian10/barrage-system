@@ -17,7 +17,8 @@ const Menus = ({changeView, viewType}) => {
 			key="live"
 			title={<span><Icon type="laptop" /><span>直播</span></span>}
 		>
-			<Menu.Item key="douYu">斗鱼直播</Menu.Item>
+			<Menu.Item key="myLive">我的直播间</Menu.Item>
+			<Menu.Item key="createLive">新建房间</Menu.Item>
 		</SubMenu>
 	</Menu>)
 }

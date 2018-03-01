@@ -5,11 +5,13 @@ import com.bishe.entities.Barrage;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client implements Runnable {
-    public static final String IP_ADDR = "localhost";
-    public static final int PORT = 12346;
+    public static final String IP_ADDR = "openbarrage.douyutv.com";
+    public static final int PORT = 8601;
 
     private int i = 0;
 
@@ -25,6 +27,11 @@ public class Client implements Runnable {
             try {
                 socket = new Socket(IP_ADDR, PORT);
 
+                OutputStream ots = socket.getOutputStream();
+                PrintWriter pw = new PrintWriter(ots);
+                pw.write("type@=loginreq/roomid@=1229/");
+                pw.flush();
+
                 DataInputStream input = new DataInputStream(socket.getInputStream());
 
                 int ret = input.read();
@@ -36,6 +43,8 @@ public class Client implements Runnable {
                 i ++;
                 barrageController.keepSendBarrage(barrage);
                 input.close();
+                pw.close();
+
             } catch (Exception e) {
                 System.out.println("客户端异常:" + e.getMessage());
             } finally {

@@ -48,7 +48,7 @@ class UserInfo extends React.Component {
 
 	changeUser(type, e) {
 		const user = this.state.user
-		user[type] = e.target.value
+		user[type] = e.target.roomId
 		this.setState({
 			user
 		})
@@ -68,7 +68,7 @@ class UserInfo extends React.Component {
 
 	onChangePassword(e) {
 		this.setState({
-			password: e.target.value
+			password: e.target.roomId
 		})
 	}
 
