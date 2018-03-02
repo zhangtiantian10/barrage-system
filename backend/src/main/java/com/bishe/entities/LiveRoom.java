@@ -17,12 +17,17 @@ public class LiveRoom {
     @NotNull
     private String platform;
 
-
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name = "liveRoomId")
-    private Set<Barrage> barrages;
+    private int status;
 
     private Long userId;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public Long getUserId() {
         return userId;

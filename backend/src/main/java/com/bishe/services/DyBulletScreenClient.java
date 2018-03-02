@@ -86,7 +86,13 @@ public class DyBulletScreenClient
     	readyFlag = true;
     	this.liveRoomId = liveRoomId;
     }
-    
+
+    public void disconnect(){
+        this.logout();
+        readyFlag = false;
+    }
+
+
     /**
      * 获取弹幕客户端就绪标记
      * @return
@@ -147,6 +153,18 @@ public class DyBulletScreenClient
     	}catch(Exception e){
     		e.printStackTrace();
     	}
+    }
+
+    private void logout() {
+        byte[] logoutRequestData = DyMessage.getLogoutRequestData();
+
+        try{
+            //发送登出请求数据包给弹幕服务器
+            bos.write(logoutRequestData);
+            bos.flush();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -247,10 +265,11 @@ public class DyBulletScreenClient
     		
 			//判断消息类型
 			if(msg.get("type").equals("chatmsg")){//弹幕消息
+                System.out.println("弹幕消息===>" + msg.toString());
+
                 Barrage barrage = new Barrage(liveRoomId, msg.get("nn").toString(), msg.get("txt").toString(), liveRoomId);
                 barrage.setDate(new Date());
                 barrageController.keepSendBarrage(barrage);
-                System.out.println("弹幕消息===>" + msg.toString());
 			} else if(msg.get("type").equals("dgb")){//赠送礼物信息
 				System.out.println("礼物消息===>" + msg.toString());
 			} else {

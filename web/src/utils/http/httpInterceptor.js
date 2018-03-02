@@ -4,7 +4,6 @@ import {AUTHENTICATION_ERROR_MAP, FORBIDDEN_ERROR_MAP, REGISTER_ERROR_MAP} from 
 
 export default (interceptor) => {
 	interceptor.response.use(function (response) {
-		console.log(response, '/////////////////')
 			// if (response.headers.authorization) {
 			//   cookie.set('TOKEN', response.headers.authorization)
 			// }
@@ -47,6 +46,9 @@ export default (interceptor) => {
 					break
 				case 409:
 					errorCode = get(response, 'data.code')
+					if (errorCode === 30032) {
+						break
+					}
 					const confictError = REGISTER_ERROR_MAP[errorCode]
 					if (confictError) {
 						notification.open({

@@ -4,7 +4,6 @@ import com.bishe.entities.Barrage;
 import com.bishe.entities.LiveRoom;
 import com.bishe.repositories.BarrageRepository;
 import com.bishe.repositories.LiveRoomRepository;
-import com.bishe.services.Client;
 import com.bishe.services.DyBulletScreenClient;
 import com.bishe.utils.KeepAlive;
 import com.bishe.utils.KeepGetMsg;
@@ -26,16 +25,15 @@ public class BarrageController {
     @Autowired
     private BarrageRepository barrageRepository;
 
+    private DyBulletScreenClient danmuClient;
+
     @MessageMapping("/barrage")
     @SendTo("/message/barrage")
     public void sendBarrages(@RequestBody LiveRoom liveRoom) throws Exception {
 
-        System.out.println(liveRoom);
-//        new Thread(new Client(this)).start();
-
         int roomId = liveRoom.getRoomId().intValue();
 
-        DyBulletScreenClient danmuClient = DyBulletScreenClient.getInstance(this);
+        danmuClient = DyBulletScreenClient.getInstance(this);
         //设置需要连接和访问的房间ID，以及弹幕池分组号
         danmuClient.init(roomId, -9999, liveRoom.getId());
 
@@ -53,4 +51,11 @@ public class BarrageController {
         barrageRepository.save(barrage);
         this.template.convertAndSend("/message/barrage", barrage);
     }
+
+    @MessageMapping("/disconnect")
+    public void disconnect() {
+        danmuClient = DyBulletScreenClient.getInstance(this);
+        danmuClient.disconnect();
+    }
+
 }

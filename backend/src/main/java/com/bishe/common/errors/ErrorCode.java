@@ -17,6 +17,7 @@ public enum ErrorCode {
     INVALID_UPLOAD_FILE(30004, "the file should not bigger than 3M and the type should be png or jpg or jpeg"),
     FAILED_TO_CREATE_ENTERPRISE(30005, "failed to create enterprise "),
     USER_ALREADY_EXISTS(30006, "user already exists"),
+    LIVE_ROOM_ALREADY_EXISTS(30032, "live room already exists"),
     FAILED_TO_CREATE_USER(30007, "failed to create user"),
     USER_NOT_FOUND(30008, "user not found"),
     FAILED_TO_STORE_FILE(30009, "failed to store file"),

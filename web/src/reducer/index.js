@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import user from '../User/reducers'
+import myLive from '../HomePage/MyLive/reducer'
 
 const reducer = (state = [], action) => {
 	return state
@@ -7,5 +8,6 @@ const reducer = (state = [], action) => {
 
 export default combineReducers({
 	reducer,
-	user
+	user,
+	myLive
 })

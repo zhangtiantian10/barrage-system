@@ -1,0 +1,16 @@
+.my-live :global {
+	margin: 0 60px;
+	.my-live-card {
+		width: 200px;
+		margin: 10px;
+		display: inline-block;
+		.ant-card-head {
+			text-align: center;
+			padding: 0 10px 0 24px;
+			.ant-card-extra {
+				color: #1890ff;
+				cursor: pointer;
+			}
+		}
+	}
+}

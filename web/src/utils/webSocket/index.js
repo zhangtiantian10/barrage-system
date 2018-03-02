@@ -1,7 +1,7 @@
 import Stomp from "@stomp/stompjs";
 import SockJS from 'sockjs-client-web';
 
-export default (liveRoom) => {
+export default (liveRoom, type) => {
 	var socket = new SockJS('http://localhost:8081/websocket');
 	const socketClient = Stomp.over(socket);
 	socketClient.connect({}, function (frame) {
@@ -9,6 +9,12 @@ export default (liveRoom) => {
 		socketClient.subscribe('/message/barrage', function (greeting) {
 			console.log(JSON.parse(greeting.body));
 		});
-		socketClient.send("/api/barrage", {}, JSON.stringify(liveRoom));
+
+		if(type === 'stop') {
+			socketClient.send("/api/disconnect")
+		} else {
+			console.log('1111')
+			socketClient.send("/api/barrage", {}, JSON.stringify(liveRoom));
+		}
 	});
 }

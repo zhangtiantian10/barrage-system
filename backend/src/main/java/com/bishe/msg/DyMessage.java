@@ -34,6 +34,16 @@ public class DyMessage
         return DyMessage.getByte(enc.getResult());
     }
 
+    public static byte[] getLogoutRequestData(){
+    	//编码器初始化
+    	DyEncoder enc = new DyEncoder();
+        //添加登出协议type类型
+    	enc.addItem("type", "logout");
+
+    	//返回登出协议数据
+        return DyMessage.getByte(enc.getResult());
+    }
+
     /**
      * 解析登录请求返回结果
      * @param respond
