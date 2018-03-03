@@ -33,7 +33,6 @@ class MyLive extends React.Component {
 	changeLiveStatus(liveRoom, type) {
 		this.props.actions.changeLiveStatus(liveRoom.id)
 			.then(() => {
-			console.log(type)
 				webSocket(liveRoom, type)
 			})
 	}

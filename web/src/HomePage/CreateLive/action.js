@@ -7,3 +7,13 @@ export const addLiveRoom = (platform, roomId) => {
 		return httpClient.post(`/room`, {platform, roomId, userId})
 	}
 }
+
+export const getAllLiveRoom = () => {
+	const userId = Cookies.getJSON('user').id
+	return dispatch => {
+		return httpClient.get(`/room/user/${userId}`)
+			.then((res) => {
+				dispatch({type: 'GET_ALL_LIVE_ROOM', liveRooms: res.data})
+			})
+	}
+}

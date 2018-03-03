@@ -68,7 +68,17 @@ class CreateLive extends React.Component{
 		}
 	}
 
+	componentWillMount() {
+		this.props.actions.getAllLiveRoom()
+	}
+
+
 	render() {
+		if(this.props.liveRooms.filter((liveRoom) => liveRoom.status === 1).length) {
+			message.error('有房间正在直播，先停止直播')
+			this.props.changeView('myLive')
+		}
+
 		const {visible, roomId} = this.state
 		return (<Modal
 			visible={visible}
@@ -102,8 +112,10 @@ class CreateLive extends React.Component{
 	}
 };
 
-const mapStateToProps = () => {
-	return {}
+const mapStateToProps = (state) => {
+	return {
+		liveRooms: state.myLive
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {

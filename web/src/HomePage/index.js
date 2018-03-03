@@ -61,7 +61,7 @@ class HomePage extends Component {
 							<Breadcrumb.Item>Bill</Breadcrumb.Item>
 						</Breadcrumb>
 						<div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-							<View/>
+							<View changeView={this.changeView.bind(this)}/>
 						</div>
 					</Content>
 				</Layout>
