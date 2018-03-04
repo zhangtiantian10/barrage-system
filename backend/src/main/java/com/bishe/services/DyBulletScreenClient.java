@@ -5,6 +5,8 @@ import com.bishe.controllers.BarrageController;
 import com.bishe.entities.Barrage;
 import com.bishe.msg.DyMessage;
 import com.bishe.msg.MsgView;
+import com.bishe.utils.KeepAlive;
+import com.bishe.utils.KeepGetMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,7 @@ import java.util.Map;
 public class DyBulletScreenClient
 {
 	Logger logger = Logger.getLogger(DyBulletScreenClient.class);
-	private static DyBulletScreenClient instance;
-	
+
 	//第三方弹幕协议服务器地址
 	private static final String hostName = "openbarrage.douyutv.com";
 	
@@ -44,32 +45,18 @@ public class DyBulletScreenClient
     //获取弹幕线程及心跳线程运行和停止标记
     private boolean readyFlag = false;
 
-    public static BarrageController barrageController;
+    public BarrageController barrageController;
 
     private Long liveRoomId;
     
-    private DyBulletScreenClient(){}
-    
-    /**
-     * 单例获取方法，客户端单例模式访问
-     * @return
-     */
-    public static DyBulletScreenClient getInstance(BarrageController barrageController1){
-        barrageController = barrageController1;
-
-    	if(null == instance){
-    		instance = new DyBulletScreenClient();
-    	}
-    	return instance;
+    public DyBulletScreenClient(BarrageController barrageController){
+        this.barrageController = barrageController;
     }
 
-    public static DyBulletScreenClient getInstance(){
-    	if(null == instance){
-    		instance = new DyBulletScreenClient();
-    	}
-    	return instance;
+    public DyBulletScreenClient() {
+
     }
-    
+
     /**
      * 客户端初始化，连接弹幕服务器并登陆房间及弹幕池
      * @param roomId 房间ID

@@ -10,6 +10,7 @@ export default (interceptor) => {
 			return response
 		},
 		function (error) {
+		debugger
 		let errorCode = '';
 		console.log(error.response)
 			const {response} = error

@@ -8,14 +8,17 @@ import com.bishe.services.DyBulletScreenClient;
  * @date:   2016-3-12   
  * @version V1.0
  */
-public class KeepAlive extends Thread {
+public class KeepAlive implements Runnable {
+
+    private DyBulletScreenClient danmuClient;
+
+    public KeepAlive(DyBulletScreenClient dyBulletScreenClient) {
+        this.danmuClient = dyBulletScreenClient;
+    }
 
     @Override
     public void run()
     {
-    	//获取弹幕客户端
-    	DyBulletScreenClient danmuClient = DyBulletScreenClient.getInstance();
-    	
     	//判断客户端就绪状态
         while(danmuClient.getReadyFlag())
         {

@@ -5,8 +5,10 @@ import com.bishe.entities.LiveRoom;
 import com.bishe.repositories.BarrageRepository;
 import com.bishe.repositories.LiveRoomRepository;
 import com.bishe.services.DyBulletScreenClient;
+import com.bishe.services.DyThread;
 import com.bishe.utils.KeepAlive;
 import com.bishe.utils.KeepGetMsg;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -30,31 +32,22 @@ public class BarrageController {
     @MessageMapping("/barrage")
     @SendTo("/message/barrage")
     public void sendBarrages(@RequestBody LiveRoom liveRoom) throws Exception {
+        System.out.println("-------------------");
 
-        int roomId = liveRoom.getRoomId().intValue();
-
-        danmuClient = DyBulletScreenClient.getInstance(this);
-        //设置需要连接和访问的房间ID，以及弹幕池分组号
-        danmuClient.init(roomId, -9999, liveRoom.getId());
-
-        //保持弹幕服务器心跳
-        KeepAlive keepAlive = new KeepAlive();
-        keepAlive.start();
-
-        //获取弹幕服务器发送的所有信息
-        KeepGetMsg keepGetMsg = new KeepGetMsg();
-        keepGetMsg.start();
+        danmuClient = new DyBulletScreenClient(this);
+        DyThread dyThread = new DyThread(liveRoom, danmuClient);
+        dyThread.run();
     }
 
 
     public void keepSendBarrage(Barrage barrage) {
         barrageRepository.save(barrage);
-        this.template.convertAndSend("/message/barrage", barrage);
+        LiveRoom liveRoom = liveRoomRepository.findOne(barrage.getLiveRoomId());
+        this.template.convertAndSend("/message/barrage/user/" + liveRoom.getUserId() + "/liveRoom/" + liveRoom.getId(), barrage);
     }
 
     @MessageMapping("/disconnect")
-    public void disconnect() {
-        danmuClient = DyBulletScreenClient.getInstance(this);
+    public void disconnect(@RequestBody LiveRoom liveRoom) {
         danmuClient.disconnect();
     }
 
