@@ -1,0 +1,15 @@
+.barrage-body :global{
+	background-color: #000;
+	color: #fff;
+	height: 250px;
+	.barrage-style {
+		overflow-y:auto;
+		width:200px;
+		height:100%;
+		color: red;
+	}
+	.ant-input {
+		background-color: #000;
+		color: #fff;
+	}
+}

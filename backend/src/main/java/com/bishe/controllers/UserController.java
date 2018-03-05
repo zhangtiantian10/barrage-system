@@ -7,6 +7,7 @@ import com.bishe.common.exceptions.NotFoundException;
 import com.bishe.common.exceptions.UserNotFoundException;
 import com.bishe.entities.LiveRoom;
 import com.bishe.entities.User;
+import com.bishe.repositories.LiveRoomRepository;
 import com.bishe.repositories.UserRepository;
 import com.bishe.services.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,9 @@ public class UserController {
     private String webUploadPath;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LiveRoomRepository liveRoomRepository;
 
     private UserService userService;
 
@@ -130,5 +134,13 @@ public class UserController {
         user.setAvatar(newFileName);
         userRepository.save(user);
         return new ResponseEntity<>(array, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/liveRoom/{liveRoomId}", method = RequestMethod.GET)
+    public ResponseEntity getUserByLiveRoomId(@PathVariable Long liveRoomId) {
+        LiveRoom liveRoom = liveRoomRepository.findOne(liveRoomId);
+        User user = userRepository.findOne(liveRoom.getUserId());
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

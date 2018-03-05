@@ -40,7 +40,6 @@ class CreateLive extends React.Component{
 			this.props.actions.addLiveRoom(platform, roomId)
 				.then((res) => {
 					message.success('创建成功')
-					webSocket(res.data, 'start')
 					this.setState({
 						visible: false
 					})

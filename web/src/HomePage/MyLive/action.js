@@ -1,6 +1,8 @@
 import httpClient from '../../utils/http'
 import Cookies from 'js-cookie'
 
+import webSocket from '../../utils/webSocket'
+
 export const getAllLiveRoom = () => {
 	const userId = Cookies.getJSON('user').id
 	return dispatch => {
@@ -20,11 +22,12 @@ export const deleteLiveRoom = (id) => {
 	}
 }
 
-export const changeLiveStatus = (id) => {
+export const changeLiveStatus = (liveRoom, type) => {
 	return dispatch => {
-		return httpClient.put(`/room/${id}/status`)
+		return httpClient.put(`/room/${liveRoom.id}/status`)
 			.then((res) => {
 				dispatch({type: 'GET_ALL_LIVE_ROOM', liveRooms: res.data})
+				webSocket(liveRoom, type, dispatch)
 			})
 	}
 }

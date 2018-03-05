@@ -1,13 +1,10 @@
 import {combineReducers} from 'redux'
 import user from '../User/reducers'
 import myLive from '../HomePage/MyLive/reducer'
-
-const reducer = (state = [], action) => {
-	return state
-}
+import barrage from '../Barrage/reducer'
 
 export default combineReducers({
-	reducer,
 	user,
-	myLive
+	myLive,
+	barrage
 })

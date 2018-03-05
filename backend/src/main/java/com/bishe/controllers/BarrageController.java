@@ -6,9 +6,6 @@ import com.bishe.repositories.BarrageRepository;
 import com.bishe.repositories.LiveRoomRepository;
 import com.bishe.services.DyBulletScreenClient;
 import com.bishe.services.DyThread;
-import com.bishe.utils.KeepAlive;
-import com.bishe.utils.KeepGetMsg;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -32,8 +29,6 @@ public class BarrageController {
     @MessageMapping("/barrage")
     @SendTo("/message/barrage")
     public void sendBarrages(@RequestBody LiveRoom liveRoom) throws Exception {
-        System.out.println("-------------------");
-
         danmuClient = new DyBulletScreenClient(this);
         DyThread dyThread = new DyThread(liveRoom, danmuClient);
         dyThread.run();

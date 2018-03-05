@@ -1,10 +1,15 @@
 import httpClient from '../../utils/http'
 import Cookies from 'js-cookie'
 
+import webSocket from '../../utils/webSocket'
+
 export const addLiveRoom = (platform, roomId) => {
 	return dispatch => {
 		const userId = Cookies.getJSON('user').id
 		return httpClient.post(`/room`, {platform, roomId, userId})
+			.then((res) => {
+				webSocket(res.data, 'start', dispatch)
+			})
 	}
 }
 

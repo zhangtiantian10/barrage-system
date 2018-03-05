@@ -7,6 +7,7 @@ import {Provider} from 'react-redux'
 import configureStore from './store'
 import HomePage from './HomePage';
 import Login from './User/LoginRegister'
+import Barrage from './Barrage'
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore()
@@ -20,6 +21,7 @@ ReactDOM.render(
 					<Route path="/login" component={Login} />
 					<Route exact path="/" component={HomePage}/>
 					<Route path="/register" component={Login}/>
+					<Route path="/barrage" component={Barrage}/>
 				</div>
 			</Router>
 		</AppContainer>
