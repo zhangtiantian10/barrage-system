@@ -3,6 +3,7 @@ package com.bishe.services;
 import com.alibaba.fastjson.JSONObject;
 import com.bishe.controllers.BarrageController;
 import com.bishe.entities.Barrage;
+import com.bishe.entities.Gift;
 import com.bishe.msg.DyMessage;
 import com.bishe.msg.MsgView;
 import com.bishe.utils.KeepAlive;
@@ -259,6 +260,11 @@ public class DyBulletScreenClient
                 barrageController.keepSendBarrage(barrage);
 			} else if(msg.get("type").equals("dgb")){//赠送礼物信息
 				System.out.println("礼物消息===>" + msg.toString());
+                Gift gift = new Gift(Integer.parseInt(msg.get("gs").toString()), liveRoomId, msg.get("nn").toString());
+                gift.setDate(new Date());
+                gift.setHits(Integer.parseInt(msg.get("hits").toString()));
+
+                barrageController.keepSendGift(gift);
 			} else {
 				System.out.println("其他消息===>" + msg.toString());
 			}

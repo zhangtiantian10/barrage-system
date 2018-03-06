@@ -7,6 +7,8 @@ import cssModules from 'react-css-modules'
 import * as action from './action'
 import styles from './index.scss'
 
+const MAP_GIFT_STYLE = ['超级火箭', '火箭', '飞机']
+
 class Barrage extends React.Component {
 
 	state = {
@@ -15,8 +17,14 @@ class Barrage extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const {sender, content} = nextProps.barrage
-		this.state.textarea += `<font color="aqua">${sender}: </font>${content}<br/>`
+		if(nextProps.data.type === "barrage") {
+			const {sender, content} = nextProps.data.barrage
+			this.state.textarea += `<font color="aqua">${sender}: </font>${content}<br/>`
+		} else {
+			const {gift} = nextProps.data
+
+			this.state.textarea += `<span style="font-size: 16px; color: aqua;">${gift.sender}</span><span style="font-size: 16px;">送出${MAP_GIFT_STYLE[gift.giftStyle - 1]}  </span><span style="color: yellowgreen; font-size: 16px;">${gift.hits}连击</span> <br/>`
+		}
 		document.all.textarea.scrollTop = document.all.textarea.scrollHeight
 
 		document.getElementById('textarea').innerHTML = this.state.textarea
@@ -25,7 +33,6 @@ class Barrage extends React.Component {
 	getLiveRoomId(e) {
 		const regex = new RegExp(/^[1-9][0-9]*$/)
 		if(!regex.test(e.target.value)) {
-			console.log(e.target.value)
 			document.getElementById('error').innerText = '请输入数字'
 			return
 		}
@@ -57,7 +64,7 @@ class Barrage extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		barrage: state.barrage
+		data: state.barrage
 	}
 }
 

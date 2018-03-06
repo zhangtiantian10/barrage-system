@@ -13,7 +13,7 @@ export const getBarrages = (liveRoomId) => {
 				const socketClient = Stomp.over(socket);
 				socketClient.connect({}, function (frame) {
 					subscription = socketClient.subscribe(`/message/barrage/user/${res.data.id}/liveRoom/${liveRoomId}`, function (greeting) {
-						dispatch({type: 'GET_BARRAGE', barrage: JSON.parse(greeting.body)})
+						dispatch({type: 'GET_BARRAGE', data: JSON.parse(greeting.body)})
 					});
 				});
 			})
