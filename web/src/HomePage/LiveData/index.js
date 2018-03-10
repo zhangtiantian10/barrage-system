@@ -1,37 +1,32 @@
 import React from 'react'
+import {Select} from 'antd'
 
-import Chart from 'chart.js'
+import BarrageChart from './BarrageChart'
 
 class LiveData extends React.Component{
 
-	renderChart() {
-		if (document.getElementById('myChart')) {
-			const ctx = document.getElementById('myChart').getContext('2d');
-			const chart = new Chart(ctx, {
-				// "type":"line","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}]},"options":{}
-				type: 'line',
-				data: {
-					labels: ['0', '1............', '2...............', '3.............', '4..................', '5.................', '6...............', '7...............', '8..............', '9..............', '10..............', '11.............', '12..............'],
-					datasets: [{
-						label: '123',
-						data: [1, 111, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-						fill: false
-					}]
-				},
-				options: {
-				}
-			});
-		}
+	state = {
+		platform: 'douYu'
 	}
 
-	componentDidMount() {
-		this.renderChart()
+	onChange(value) {
+		this.setState({
+			platform: value
+		})
 	}
 
 	render() {
 		return (
 			<div>
-				<canvas id="myChart"></canvas>
+				<div style={{width: 1000, margin: 'auto'}}>
+					<label style={{fontWeight: 500}}>选择直播平台 </label>
+					<Select style={{ width: 120 }} onChange={this.onChange.bind(this)} defaultValue={this.state.platform}>
+						<Select.Option value="douYu">斗鱼</Select.Option>
+						<Select.Option value="huYa">虎牙</Select.Option>
+					</Select>
+				</div>
+				<BarrageChart type="barrage" platform={this.state.platform}/>
+				<BarrageChart type="gift" platform={this.state.platform}/>
 			</div>
 		)
 	}

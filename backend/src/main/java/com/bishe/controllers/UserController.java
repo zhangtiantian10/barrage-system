@@ -139,6 +139,9 @@ public class UserController {
     @RequestMapping(value = "/liveRoom/{liveRoomId}", method = RequestMethod.GET)
     public ResponseEntity getUserByLiveRoomId(@PathVariable Long liveRoomId) {
         LiveRoom liveRoom = liveRoomRepository.findOne(liveRoomId);
+        if (liveRoom == null ) {
+            return new ResponseEntity<>("invalid liveRoom id", HttpStatus.NOT_FOUND);
+        }
         User user = userRepository.findOne(liveRoom.getUserId());
 
         return new ResponseEntity<>(user, HttpStatus.OK);

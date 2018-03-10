@@ -32,16 +32,21 @@ class Barrage extends React.Component {
 
 	getLiveRoomId(e) {
 		const regex = new RegExp(/^[1-9][0-9]*$/)
+		document.getElementById('error').innerText = ''
 		if(!regex.test(e.target.value)) {
 			document.getElementById('error').innerText = '请输入数字'
 			return
 		}
-
 		this.setState({
 			liveRoomId: e.target.value
-		}, () => {
-			this.props.actions.getBarrages(this.state.liveRoomId)
 		})
+		this.props.actions.getBarrages(e.target.value)
+			.catch((err) => {
+				this.setState({
+					liveRoomId: -1
+				})
+				document.getElementById('error').innerText = '该房间不存在，请重新输入'
+			})
 	}
 
 	componentWillUnmount() {

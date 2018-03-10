@@ -55,6 +55,10 @@ class MyLive extends React.Component {
 					<div style={{textAlign: 'center'}}>
 						{liveRoom.roomId} 房间
 					</div>
+					<div style={{textAlign: 'center'}}>
+						<span>房间标识：</span>
+						<label>{liveRoom.id}</label>
+					</div>
 				</Card>
 			})}
 		</div>)

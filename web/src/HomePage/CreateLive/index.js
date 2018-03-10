@@ -45,7 +45,7 @@ class CreateLive extends React.Component{
 					})
 				})
 				.catch(() => {
-					message.error('该房间已经创建，请重新创建')
+					message.error('该平台已经创建房间，请重新创建')
 				})
 		}
 	}

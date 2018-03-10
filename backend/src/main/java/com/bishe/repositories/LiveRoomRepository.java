@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface LiveRoomRepository extends JpaRepository<LiveRoom,Long> {
 
+    LiveRoom findByUserIdAndPlatform(Long userId, String platform);
     List<LiveRoom> findByUserId(Long userId);
-    LiveRoom findByRoomIdAndPlatformAndUserId(Long roomId, String platform, Long userId);
+    LiveRoom findByPlatformAndUserId(String platform, Long userId);
 }

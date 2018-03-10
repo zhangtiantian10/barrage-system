@@ -1,0 +1,22 @@
+.header-page-content {
+	background-color: #00151F;
+	color: #ffffff;
+	display: inline-block;
+	width: 100%;
+	padding-right: 20px;
+	.username-style {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.logout {
+		color: #1890ff;
+		padding-left: 10px;
+		text-decoration:underline;
+		cursor: pointer;
+	}
+
+	.logout:hover {
+		color: #ebedf0;
+	}
+}

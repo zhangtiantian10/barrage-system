@@ -22,6 +22,7 @@ export const getBarrages = (liveRoomId) => {
 
 export const cancelSubscribe = () => {
 	return dispatch => {
-		subscription.unsubscribe();
+		if (subscription)
+			subscription.unsubscribe();
 	}
 }
