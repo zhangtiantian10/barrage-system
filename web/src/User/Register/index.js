@@ -87,7 +87,10 @@ class Login extends Component {
 					label="姓名"
 				>
 					{getFieldDecorator('name', {
-						rules: [],
+						rules: [{
+							required: true,
+							message: '请输入姓名!',
+						}]
 					})(
 						<Input type="text" placeholder="请填写真实姓名"/>
 					)}
