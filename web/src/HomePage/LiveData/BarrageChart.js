@@ -20,14 +20,19 @@ class BarrageChart extends React.Component{
 		id: Math.random(),
 		data: [],
 		dates: [],
-		isDisplay: false
+		isDisplay: false,
+		chart: null
 	}
 
 	renderChart() {
 		const {data, dates} = this.state
 		if (document.getElementById(`myChart${this.props.type}`)) {
+			if (this.state.chart) {
+				this.state.chart.destroy()
+			}
 			const ctx = document.getElementById(`myChart${this.props.type}`).getContext('2d');
-			const chart = new Chart(ctx, {
+
+			this.state.chart = new Chart(ctx, {
 				type: 'line',
 				data: {
 					labels: dates || [],
