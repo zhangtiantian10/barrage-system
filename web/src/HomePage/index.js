@@ -27,6 +27,11 @@ class HomePage extends Component {
 		viewType: 'user'
 	};
 
+	componentWillMount () {
+      const path = this.props.location.pathname.split('/')[1]
+      this.setState({viewType: path})
+  }
+
 	componentDidMount() {
 		if (!Cookies.getJSON("user")) {
 			message.error('请先登录')
@@ -40,7 +45,7 @@ class HomePage extends Component {
 	}
 
 	changeView = (viewType) => {
-		this.setState({viewType})
+    this.props.history.push(`/${viewType}`)
 	}
 
 	logout() {

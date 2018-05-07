@@ -19,7 +19,10 @@ ReactDOM.render(
 			<Router history={history}>
 				<div>
 					<Route path="/login" component={Login} />
-					<Route exact path="/" component={HomePage}/>
+					<Route exact path="/user" component={HomePage}/>
+					<Route exact path="/liveData" component={HomePage}/>
+					<Route exact path="/createLive" component={HomePage}/>
+					<Route exact path="/myLive" component={HomePage}/>
 					<Route path="/register" component={Login}/>
 					<Route path="/barrage" component={Barrage}/>
 				</div>
