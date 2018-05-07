@@ -115,10 +115,20 @@ public class BarrageController {
     public Map getDataByDate(String startDateStr, String endDateStr, String type, Long liveRoomId) throws ParseException {
         List<String> dates = new ArrayList<>();
         List<Integer> data = new ArrayList<>();
+        List<Integer> rockets = new ArrayList<>();
+        List<Integer> superRockets = new ArrayList<>();
+        List<Integer> planes = new ArrayList<>();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String compare = "";
+
+        List barrages = new ArrayList();
+
+        Map barrage = new HashMap();
+        Map rocket = new HashMap();
+        Map superRocket = new HashMap();
+        Map plane = new HashMap();
 
         int flag = 1;
         while (compare.compareTo(endDateStr) < 0) {
@@ -133,17 +143,46 @@ public class BarrageController {
             List a = new ArrayList();
             if (type.equals("barrage")) {
                 a = barrageRepository.findAllByLiveRoomIdAndDateBetween(liveRoomId, startDate, endDate);
+                barrage.put("type", "barrage");
+                data.add(a.size());
+                barrage.put("data", data);
             } else {
-                a = giftRepository.findAllByLiveRoomIdAndDateBetween(liveRoomId, startDate, endDate);
+                for (int i = 1; i <= 3; i++) {
+                    int count = giftRepository.countAllByLiveRoomIdAndGiftStyleAndDateBetween(liveRoomId, i, startDate, endDate);
+                    if (i == 1) {
+                        superRockets.add(count);
+                    } else if (i == 2) {
+                        rockets.add(count);
+                    } else {
+                        planes.add(count);
+                    }
+                }
             }
             dates.add(compare);
-            data.add(a.size());
             flag ++;
+        }
+
+        if (type.equals("barrage")) {
+            barrages.add(barrage);
+
+        } else {
+            superRocket.put("type", "superRocket");
+            superRocket.put("data", superRockets);
+
+            rocket.put("type", "rocket");
+            rocket.put("data", rockets);
+
+            plane.put("type", "plane");
+            plane.put("data", planes);
+
+            barrages.add(superRocket);
+            barrages.add(rocket);
+            barrages.add(plane);
         }
 
         Map result = new HashMap();
         result.put("dates", dates);
-        result.put("data", data);
+        result.put("barrages", barrages);
 
         return result;
     }

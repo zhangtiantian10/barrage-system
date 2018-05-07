@@ -28,3 +28,9 @@ export const getUser = (id) => {
     return httpClient.get(`/user/${id}`)
   }
 }
+
+export const getLiveDataCount = (id) => {
+  return dispatch => {
+    return httpClient.get(`/room/barrageCount/${id}`)
+  }
+}

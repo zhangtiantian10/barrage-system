@@ -29,7 +29,7 @@ class LiveData extends React.Component{
 					</Select>
 				</div>
 				<BarrageChart type="barrage" userId={user.id} platform={this.state.platform}/>
-				<BarrageChart type="gift" userId={user.Id} platform={this.state.platform}/>
+				<BarrageChart type="gift" userId={user.id} platform={this.state.platform}/>
 			</div>
 		)
 	}

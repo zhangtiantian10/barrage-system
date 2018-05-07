@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/room")
@@ -83,5 +85,18 @@ public class LiveRoomController {
         List<LiveRoom> liveRooms = liveRoomRepository.findByUserId(liveRoom.getUserId());
 
         return new ResponseEntity<>(liveRooms, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/barrageCount/{id}", method = RequestMethod.GET)
+    public ResponseEntity getBarrageAndGiftCount(@PathVariable Long id) {
+        int barrageCount = barrageRepository.countAllByLiveRoomId(id);
+        int giftCount = giftRepository.countAllByLiveRoomId(id);
+
+        Map<String, Integer> result = new HashMap<>();
+
+        result.put("barrageCount", barrageCount);
+        result.put("giftCount", giftCount);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -15,7 +15,9 @@ const MAP_PLATFORM = {
 class LiveData extends React.Component {
   state = {
     liveRoom: null,
-    user: null
+    user: null,
+    barrageCount: 0,
+    giftCount: 0
   }
 
   componentDidMount() {
@@ -29,10 +31,15 @@ class LiveData extends React.Component {
           liveRoom
         })
       })
+
+    this.props.actions.getLiveDataCount(roomId)
+      .then((res) => {
+        this.setState({...res.data})
+      })
   }
 
   render() {
-    const {liveRoom, user} = this.state
+    const {liveRoom, user, barrageCount, giftCount} = this.state
     return (user ? <div className={styles['live-data']}>
       <div>
         <a href="/admin/users"><Icon type="arrow-left" />返回</a>
@@ -60,7 +67,7 @@ class LiveData extends React.Component {
                     <img src="http://localhost:8081/image/c_1.png" width="50"/>
                     <div style={{display: 'inline-block', marginLeft: 10}}>
                       <div>弹幕数量</div>
-                      <span>--条</span>
+                      <span>{barrageCount}条</span>
                     </div>
                   </div>
                 </td>
@@ -70,7 +77,7 @@ class LiveData extends React.Component {
                     <img src="http://localhost:8081/image/d_1.png" width="50"/>
                     <div style={{display: 'inline-block', marginLeft: 10}}>
                       <div>礼物数量</div>
-                      <span>--条</span>
+                      <span>{giftCount}条</span>
                     </div>
                   </div>
                 </td>

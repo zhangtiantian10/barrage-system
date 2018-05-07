@@ -11,8 +11,13 @@ import styles from './index.scss'
 
 const MAP_DATA_TYPE = {
 	barrage: "弹幕",
-	gift: "礼物"
+	gift: "礼物",
+  superRocket: "超级火箭",
+	rocket: "火箭",
+	plane: "飞机"
 }
+
+const MAP_GIFT_STYLE = ['#7BB5EC', 'yellow', 'red']
 
 class Index extends React.Component{
 	state = {
@@ -25,22 +30,27 @@ class Index extends React.Component{
 
 	renderChart() {
 		const {data, dates} = this.state
+		console.log(data)
 		if (document.getElementById(`myChart${this.props.type}`)) {
 			if (this.state.chart) {
 				this.state.chart.destroy()
 			}
 			const ctx = document.getElementById(`myChart${this.props.type}`).getContext('2d');
 
+			const datasets = data.map((d, i) => {
+				return {
+          label: `${MAP_DATA_TYPE[d.type]}数据`,
+          data: d.data || [],
+          fill: false,
+          borderColor: MAP_GIFT_STYLE[i]
+        }
+			})
+
 			this.state.chart = new Chart(ctx, {
 				type: 'line',
 				data: {
 					labels: dates || [],
-					datasets: [{
-						label: `${MAP_DATA_TYPE[this.props.type]}数据`,
-						data: data || [],
-						fill: false,
-						borderColor: "#7BB5EC"
-					}]
+					datasets: datasets
 				},
 				options: {}
 			});
@@ -54,7 +64,7 @@ class Index extends React.Component{
 			this.props.actions.getBarrageDataForMonth(userId, platform, monthStr)
 				.then((res) => {
 					this.setState({
-						data: res.data.data,
+						data: res.data.barrages,
 						dates: res.data.dates
 					}, () => {this.renderChart();})
 				})
@@ -62,7 +72,7 @@ class Index extends React.Component{
 			this.props.actions.getGiftDataForMonth(userId, platform, monthStr)
 				.then((res) => {
 					this.setState({
-						data: res.data.data,
+						data: res.data.barrages,
 						dates: res.data.dates
 					}, () => {this.renderChart()})
 				})
