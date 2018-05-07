@@ -1,4 +1,4 @@
-import httpClient from '../../utils/http'
+import httpClient from '../../utils/http/index'
 
 export const getBarrageDataForMonth = (userId, platform, monthStr) => {
 	return dispatch => {

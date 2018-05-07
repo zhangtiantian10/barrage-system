@@ -8,25 +8,34 @@ import styles from './index.scss';
 import Menus from './Menus'
 import HeaderPage from './HeaderPage'
 import UsersInfo from "./UsersInfo";
-import LiveRooms from "./LiveRooms";
+import ModifyPassword from './ModifyPassword'
+import LiveData from "./UsersInfo/LiveData";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const MAP_CONTENT_COMPONENT = {
 	users: UsersInfo,
-	liveRooms: LiveRooms
+	password: ModifyPassword,
+	liveRoom: LiveData
 }
 
 class HomePage extends Component {
 	state = {
-		collapsed: false,
-		viewType: 'users'
+    collapsed: false,
+    viewType: 'users',
+    roomId: 0,
+    userId: 0
 	};
 
 	componentWillMount () {
-    const path = this.props.location.pathname.split('/')[2]
-    this.setState({viewType: path})
-  }
+    let path = this.props.location.pathname.split('/')[2]
+    const {roomId} = this.props.match.params || 0
+    const userId = this.props.location.search.split('=')[1] || 0
+		if (userId && roomId) {
+    	path = 'users'
+		}
+		this.setState({roomId, userId, viewType: path})
+	}
 
 	componentDidMount() {
     const user = Cookies.getJSON('user')
@@ -57,12 +66,17 @@ class HomePage extends Component {
 	}
 
 	render() {
-		const View = MAP_CONTENT_COMPONENT[this.state.viewType] || Header
+    const {userId, roomId} = this.state
 
-		const user = Cookies.getJSON('user')
-		if(!user) {
-			return ''
-		}
+    const user = Cookies.getJSON('user')
+    let View = MAP_CONTENT_COMPONENT[this.state.viewType] || LiveData
+    if (userId && roomId) {
+      View = LiveData
+    }
+    if(!user) {
+      return ''
+    }
+
 		return (
 			<Layout style={{ minHeight: '100vh' }}>
 				<Sider
@@ -78,7 +92,7 @@ class HomePage extends Component {
 					</Header>
 					<Content style={{ margin: '0' }}>
 						<div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-							<View changeView={this.changeView.bind(this)}/>
+							<View changeView={this.changeView.bind(this)} userId={userId} roomId={roomId}/>
 						</div>
 					</Content>
 				</Layout>

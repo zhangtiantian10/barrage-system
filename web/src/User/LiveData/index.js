@@ -1,7 +1,8 @@
 import React from 'react'
 import {Select} from 'antd'
+import Cookies from 'js-cookie'
 
-import BarrageChart from './BarrageChart'
+import BarrageChart from '../../constant/BarrageChart'
 
 class LiveData extends React.Component{
 
@@ -16,6 +17,8 @@ class LiveData extends React.Component{
 	}
 
 	render() {
+    const user = Cookies.getJSON('user')
+
 		return (
 			<div>
 				<div style={{width: 1000, margin: 'auto'}}>
@@ -25,8 +28,8 @@ class LiveData extends React.Component{
 						<Select.Option value="huYa">虎牙</Select.Option>
 					</Select>
 				</div>
-				<BarrageChart type="barrage" platform={this.state.platform}/>
-				<BarrageChart type="gift" platform={this.state.platform}/>
+				<BarrageChart type="barrage" userId={user.id} platform={this.state.platform}/>
+				<BarrageChart type="gift" userId={user.Id} platform={this.state.platform}/>
 			</div>
 		)
 	}

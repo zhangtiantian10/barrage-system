@@ -20,7 +20,6 @@ export const putUser = (user) => {
 }
 
 export const changePassword = (id, password) => {
-	console.log(password, '=========')
 	return dispatch => {
 		return httpClient.put(`/user/${id}/password`, {password})
 	}

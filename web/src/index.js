@@ -9,6 +9,7 @@ import UserPage from './User';
 import Login from './LoginRegister'
 import Barrage from './Barrage'
 import AdminPage from './Admin'
+import LiveData from "./Admin/UsersInfo/LiveData";
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore()
@@ -28,7 +29,8 @@ ReactDOM.render(
 					<Route path="/register" component={Login}/>
 					<Route path="/barrage" component={Barrage}/>
 					<Route exact path="/admin/users" component={AdminPage}/>
-					<Route exact path="/admin/liveRooms" component={AdminPage}/>
+					<Route exact path="/admin/password" component={AdminPage}/>
+					<Route path="/liveRoom/:roomId" component={AdminPage}/>
 				</div>
 			</Router>
 		</AppContainer>

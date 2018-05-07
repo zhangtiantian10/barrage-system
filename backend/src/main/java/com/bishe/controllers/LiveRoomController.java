@@ -44,6 +44,13 @@ public class LiveRoomController {
         return new ResponseEntity<>(liveRoom, HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity getLiveRoom(@PathVariable Long id) {
+
+        LiveRoom liveRoom = liveRoomRepository.findOne(id);
+        return new ResponseEntity<>(liveRoom, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public ResponseEntity getAllLiveRoom(@PathVariable Long id) {
 

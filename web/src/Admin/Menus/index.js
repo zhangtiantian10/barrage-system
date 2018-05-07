@@ -10,9 +10,9 @@ const Menus = ({changeView, viewType}) => {
 			<span>主播信息</span>
 		</Menu.Item>
 
-		<Menu.Item key="liveRooms">
+		<Menu.Item key="password">
       <Icon type="laptop" />
-			<span>主播直播间</span>
+			<span>修改密码</span>
 		</Menu.Item>
 	</Menu>)
 }

@@ -1,10 +1,9 @@
 import React from 'react'
-import Chart from 'chart.js'
+import Chart from '../../../node_modules/chart.js/src/chart'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import Cookies from 'js-cookie'
 import cssModules from 'react-css-modules'
-import {Button, Radio, DatePicker} from 'antd'
+import {Radio, DatePicker} from 'antd'
 import moment from 'moment'
 
 import * as action from './action'
@@ -15,7 +14,7 @@ const MAP_DATA_TYPE = {
 	gift: "礼物"
 }
 
-class BarrageChart extends React.Component{
+class Index extends React.Component{
 	state = {
 		id: Math.random(),
 		data: [],
@@ -49,10 +48,10 @@ class BarrageChart extends React.Component{
 	}
 
 	getLiveDataForMonth(monthStr, platform) {
-		const user = Cookies.getJSON('user');
+		const userId = this.props.userId;
 
 		if(this.props.type === "barrage") {
-			this.props.actions.getBarrageDataForMonth(user.id, platform, monthStr)
+			this.props.actions.getBarrageDataForMonth(userId, platform, monthStr)
 				.then((res) => {
 					this.setState({
 						data: res.data.data,
@@ -60,7 +59,7 @@ class BarrageChart extends React.Component{
 					}, () => {this.renderChart();})
 				})
 		} else {
-			this.props.actions.getGiftDataForMonth(user.id, platform, monthStr)
+			this.props.actions.getGiftDataForMonth(userId, platform, monthStr)
 				.then((res) => {
 					this.setState({
 						data: res.data.data,
@@ -79,8 +78,8 @@ class BarrageChart extends React.Component{
 	}
 
 	getLiveDataForDay(day, platform) {
-		const user = Cookies.getJSON('user');
-		this.props.actions.getLiveDataForDay(user.id, platform, day, this.props.type)
+    const userId = this.props.userId;
+		this.props.actions.getLiveDataForDay(userId, platform, day, this.props.type)
 			.then((res) => {
 			console.log(res.data)
 				this.setState({
@@ -162,4 +161,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(cssModules(BarrageChart, styles))
+export default connect(mapStateToProps, mapDispatchToProps)(cssModules(Index, styles))
