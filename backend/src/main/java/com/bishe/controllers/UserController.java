@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,6 +41,15 @@ public class UserController {
     private LiveRoomRepository liveRoomRepository;
 
     private UserService userService;
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity getUsers(@RequestParam(name = "pageNumber", defaultValue = "1") int pageNumber,
+                                   @RequestParam(name = "size", defaultValue = "10") int size) {
+        Pageable pageable = new PageRequest(pageNumber - 1, size);
+        Page users = userRepository.findAllByRole(0, pageable);
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getUser(@PathVariable Long id) {
@@ -62,6 +74,7 @@ public class UserController {
             String password = new BCryptPasswordEncoder().encode(user.getPassword().trim());
             user.setPassword(password);
             user.setAvatar("1517647635584.jpg");
+            user.setRole(0);
             userRepository.save(user);
             return new ResponseEntity(user.getPassword(), HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {

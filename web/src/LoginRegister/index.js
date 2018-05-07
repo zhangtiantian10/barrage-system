@@ -41,24 +41,26 @@ class LoginRegister extends Component {
 
 	render() {
 
-		const CurrentPage = MAP_CURRENT_PAGES[this.state.current] || Login
-		return (<div styleName="login-register">
+    const {isAdmin, current} = this.state;
+
+		const CurrentPage = MAP_CURRENT_PAGES[current] || Login
+    return (<div styleName="login-register">
 				<div styleName="background">
 				</div>
 				<Row>
 					<Col span={8} offset={8} styleName="login-register-content">
 						<Menu
 							onClick={this.handleClick}
-							selectedKeys={[`.$${this.state.current}`]}
+							selectedKeys={[`.$${current}`]}
 							mode="horizontal">
-							<Menu.Item key="login" id="login" styleName={this.state.isAdmin ? "display-menu" : "menu-item"}>
+							<Menu.Item key="login" id="login" styleName={isAdmin ? "display-menu" : "menu-item"}>
 								登陆
 							</Menu.Item>
-							<Menu.Item key="register" styleName={this.state.isAdmin ? "hidden-menu" : "menu-item"}>
+							<Menu.Item key="register" styleName={isAdmin ? "hidden-menu" : "menu-item"}>
 								注册
 							</Menu.Item>
 						</Menu>
-						<CurrentPage/>
+						<CurrentPage isAdmin={isAdmin}/>
 					</Col>
 				</Row>
 			</div>

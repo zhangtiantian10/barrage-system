@@ -5,9 +5,10 @@ import {AppContainer} from 'react-hot-loader'
 import createBrowserHistory from 'history/createBrowserHistory'
 import {Provider} from 'react-redux'
 import configureStore from './store'
-import HomePage from './HomePage';
+import UserPage from './User';
 import Login from './LoginRegister'
 import Barrage from './Barrage'
+import AdminPage from './Admin'
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore()
@@ -20,12 +21,14 @@ ReactDOM.render(
 				<div>
 					<Route path="/login" component={Login} />
 					<Route path="/admin/login" component={Login} />
-					<Route exact path="/user" component={HomePage}/>
-					<Route exact path="/liveData" component={HomePage}/>
-					<Route exact path="/createLive" component={HomePage}/>
-					<Route exact path="/myLive" component={HomePage}/>
+					<Route exact path="/user" component={UserPage}/>
+					<Route exact path="/liveData" component={UserPage}/>
+					<Route exact path="/createLive" component={UserPage}/>
+					<Route exact path="/myLive" component={UserPage}/>
 					<Route path="/register" component={Login}/>
 					<Route path="/barrage" component={Barrage}/>
+					<Route exact path="/admin/users" component={AdminPage}/>
+					<Route exact path="/admin/liveRooms" component={AdminPage}/>
 				</div>
 			</Router>
 		</AppContainer>

@@ -19,7 +19,11 @@ class Login extends Component {
 			if (!err) {
 				this.props.actions.login(values)
 					.then(() => {
-						this.props.history.push('/')
+            if (this.props.isAdmin) {
+            	this.props.history.push('/admin/users')
+            } else {
+              this.props.history.push('/user');
+            }
 					})
 			}
 		})

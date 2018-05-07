@@ -26,7 +26,7 @@ class Login extends Component {
 			if (!err) {
 				this.props.actions.register(values)
 					.then(() => {
-						this.props.history.push('/')
+						this.props.history.push('/user')
 					})
 			}
 		})

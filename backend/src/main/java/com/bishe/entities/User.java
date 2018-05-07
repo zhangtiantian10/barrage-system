@@ -28,6 +28,8 @@ public class User {
     @NotNull
     private String avatar;
 
+    private Integer role;
+
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "userId")
     private Set<LiveRoom> liveRooms;
@@ -86,5 +88,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
     }
 }
