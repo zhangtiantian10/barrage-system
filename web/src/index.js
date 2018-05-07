@@ -6,7 +6,7 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import {Provider} from 'react-redux'
 import configureStore from './store'
 import HomePage from './HomePage';
-import Login from './User/LoginRegister'
+import Login from './LoginRegister'
 import Barrage from './Barrage'
 import registerServiceWorker from './registerServiceWorker';
 
@@ -19,6 +19,7 @@ ReactDOM.render(
 			<Router history={history}>
 				<div>
 					<Route path="/login" component={Login} />
+					<Route path="/admin/login" component={Login} />
 					<Route exact path="/user" component={HomePage}/>
 					<Route exact path="/liveData" component={HomePage}/>
 					<Route exact path="/createLive" component={HomePage}/>

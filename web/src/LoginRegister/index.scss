@@ -34,5 +34,19 @@
 			background-color: #1890ff;
 			color: #fff;
 		}
+
+		.hidden-menu {
+			display: none;
+		}
+
+		.display-menu {
+			width: 100%;
+			text-align: center;
+		}
+
+		.display-menu:active {
+			background-color: #1890ff;
+			color: #fff;
+		}
 	}
 }
