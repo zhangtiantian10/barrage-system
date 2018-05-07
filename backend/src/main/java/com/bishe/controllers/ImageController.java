@@ -25,8 +25,11 @@ public class ImageController {
 
     @RequestMapping(value = "/{fileName:.+}", method = RequestMethod.GET)
     public ResponseEntity getImage(@PathVariable String fileName) {
+        File currentFile = new File(".");
+        String currentPath = currentFile.getAbsolutePath();
+
         String temp = "static/images" + File.separator + "upload" + File.separator;
-        Resource resource = resourceLoader.getResource("file:" + webUploadPath + temp + fileName);
+        Resource resource = resourceLoader.getResource("file:" + currentPath + webUploadPath + temp + fileName);
 
         return ResponseEntity.ok(resource);
     }

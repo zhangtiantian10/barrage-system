@@ -114,12 +114,15 @@ public class UserController {
         System.out.println(file);
         String temp = "static/images" + File.separator + "upload" + File.separator;
 
+        File currentFile = new File(".");
+        String currentPath = currentFile.getAbsolutePath();
+
         String fileName = file.getOriginalFilename();
         String extensionName = StringUtils.substringAfter(fileName, ".");
 
         String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
 
-        String filePath = webUploadPath.concat(temp);
+        String filePath = currentPath + webUploadPath.concat(temp);
 
         File dest = new File(filePath, newFileName);
         if (!dest.getParentFile().exists()) {
