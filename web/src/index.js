@@ -9,8 +9,8 @@ import UserPage from './User';
 import Login from './LoginRegister'
 import Barrage from './Barrage'
 import AdminPage from './Admin'
-import LiveData from "./Admin/UsersInfo/LiveData";
 import registerServiceWorker from './registerServiceWorker';
+import HomePage from "./HomePage";
 
 const store = configureStore()
 const history = createBrowserHistory()
@@ -31,6 +31,8 @@ ReactDOM.render(
 					<Route exact path="/admin/users" component={AdminPage}/>
 					<Route exact path="/admin/password" component={AdminPage}/>
 					<Route path="/liveRoom/:roomId" component={AdminPage}/>
+					<Route exact path="/homePage" component={HomePage}/>
+					<Route exact path="/sort" component={HomePage}/>
 				</div>
 			</Router>
 		</AppContainer>

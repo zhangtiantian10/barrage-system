@@ -73,7 +73,7 @@ public class UserController {
         try {
             String password = new BCryptPasswordEncoder().encode(user.getPassword().trim());
             user.setPassword(password);
-            user.setAvatar("1517647635584.jpg");
+            user.setAvatar("touxiang.png");
             user.setRole(0);
             userRepository.save(user);
             return new ResponseEntity(user.getPassword(), HttpStatus.CREATED);

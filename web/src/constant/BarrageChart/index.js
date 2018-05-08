@@ -64,7 +64,7 @@ class Index extends React.Component{
 			this.props.actions.getBarrageDataForMonth(userId, platform, monthStr)
 				.then((res) => {
 					this.setState({
-						data: res.data.barrages,
+						data: res.data.barrages || [],
 						dates: res.data.dates
 					}, () => {this.renderChart();})
 				})
@@ -72,7 +72,7 @@ class Index extends React.Component{
 			this.props.actions.getGiftDataForMonth(userId, platform, monthStr)
 				.then((res) => {
 					this.setState({
-						data: res.data.barrages,
+						data: res.data.barrages || [],
 						dates: res.data.dates
 					}, () => {this.renderChart()})
 				})

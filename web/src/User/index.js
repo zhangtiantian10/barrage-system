@@ -10,7 +10,7 @@ import UserInfo from "./UserInfo";
 import LiveData from './LiveData'
 import MyLive from './MyLive'
 import CreateLive from './CreateLive'
-import HeaderPage from './HeaderPage'
+import HeaderPage from '../constant/HeaderPage'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -62,17 +62,17 @@ class HomePage extends Component {
 		}
 		return (
 			<Layout style={{ minHeight: '100vh' }}>
-				<Sider
-					collapsible
-					collapsed={this.state.collapsed}
-					onCollapse={this.onCollapse}
-				>
-					<Menus changeView={this.changeView} viewType={this.state.viewType}/>
-				</Sider>
+        <Header style={{ background: '#fff', padding: 0, height: '46px' }} >
+          <HeaderPage username={user ? user.userName : ''} user={user} logout={this.logout.bind(this)} type='user'/>
+        </Header>
 				<Layout>
-					<Header style={{ background: '#fff', padding: 0 }} >
-						<HeaderPage username={user ? user.userName : ''} logout={this.logout.bind(this)}/>
-					</Header>
+          <Sider
+            collapsible
+            collapsed={this.state.collapsed}
+            onCollapse={this.onCollapse}
+          >
+            <Menus changeView={this.changeView} viewType={this.state.viewType}/>
+          </Sider>
 					<Content style={{ margin: '0' }}>
 						<div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
 							<View changeView={this.changeView.bind(this)}/>
