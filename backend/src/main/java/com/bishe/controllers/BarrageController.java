@@ -227,7 +227,15 @@ public class BarrageController {
             return new ResponseEntity<>(getNullResult(), HttpStatus.OK);
         }
         String[] times = new String[24];
-        int[] data = new int[24];
+        List<Integer> data = new ArrayList<>();
+        List<Integer> rockets = new ArrayList<>();
+        List<Integer> superRockets = new ArrayList<>();
+        List<Integer> planes = new ArrayList<>();
+
+        Map barrage = new HashMap();
+        Map rocket = new HashMap();
+        Map superRocket = new HashMap();
+        Map plane = new HashMap();
 
         for(int i = 0; i < 24; i++) {
             List lives = new ArrayList();
@@ -243,16 +251,51 @@ public class BarrageController {
 
             if(type.equals("barrage")) {
                 lives = barrageRepository.findAllByLiveRoomIdAndDateBetween(liveRoom.getId(), startTime, endTime);
+                barrage.put("type", "barrage");
+                data.add(lives.size());
+                barrage.put("data", data);
             } else {
-                lives = giftRepository.findAllByLiveRoomIdAndDateBetween(liveRoom.getId(), startTime, endTime);
+                for (int j = 1; j <= 3; j++) {
+                    int count = giftRepository.countAllByLiveRoomIdAndGiftStyleAndDateBetween(liveRoom.getId(), j, startTime, endTime);
+                    if (j == 1) {
+                        superRockets.add(count);
+                    } else if (j == 2) {
+                        rockets.add(count);
+                    } else {
+                        planes.add(count);
+                    }
+                }
+//                lives = giftRepository.findAllByLiveRoomIdAndDateBetween(liveRoom.getId(), startTime, endTime);
             }
 
             times[i] = i + "点";
-            data[i] = lives.size();
+//            data[i] = lives.size();
         }
+        List barrages = new ArrayList();
+
+
+        if (type.equals("barrage")) {
+            barrages.add(barrage);
+
+        } else {
+            superRocket.put("type", "superRocket");
+            superRocket.put("data", superRockets);
+
+            rocket.put("type", "rocket");
+            rocket.put("data", rockets);
+
+            plane.put("type", "plane");
+            plane.put("data", planes);
+
+            barrages.add(superRocket);
+            barrages.add(rocket);
+            barrages.add(plane);
+        }
+
         Map result = new HashMap();
-        result.put("data", data);
         result.put("dates", times);
+        result.put("barrages", barrages);
+
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

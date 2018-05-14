@@ -9,14 +9,14 @@ import Menus from './Menus'
 import HeaderPage from '../constant/HeaderPage'
 import UsersInfo from "./UsersInfo";
 import ModifyPassword from './ModifyPassword'
-import LiveData from "./UsersInfo/LiveData";
+import Live from "./UsersInfo/Live";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const MAP_CONTENT_COMPONENT = {
 	users: UsersInfo,
 	password: ModifyPassword,
-	liveRoom: LiveData
+	liveRoom: Live
 }
 
 class HomePage extends Component {
@@ -69,9 +69,9 @@ class HomePage extends Component {
     const {userId, roomId} = this.state
 
     const user = Cookies.getJSON('user')
-    let View = MAP_CONTENT_COMPONENT[this.state.viewType] || LiveData
+    let View = MAP_CONTENT_COMPONENT[this.state.viewType] || Live
     if (userId && roomId) {
-      View = LiveData
+      View = Live
     }
     if(!user) {
       return ''

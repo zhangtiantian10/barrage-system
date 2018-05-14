@@ -22,15 +22,3 @@ export const getLiveRoom = (id) => {
     return httpClient.get(`/room/${id}`)
   }
 }
-
-export const getUser = (id) => {
-  return dispatch => {
-    return httpClient.get(`/user/${id}`)
-  }
-}
-
-export const getLiveDataCount = (id) => {
-  return dispatch => {
-    return httpClient.get(`/room/barrageCount/${id}`)
-  }
-}

@@ -19,6 +19,13 @@ const MAP_DATA_TYPE = {
 
 const MAP_GIFT_STYLE = ['#7BB5EC', 'yellow', 'red']
 
+const MAP_GIFT_MONEY = {
+  barrage: 1,
+  superRocket: 2000,
+  rocket: 500,
+  plane: 100
+}
+
 class Index extends React.Component{
 	state = {
 		id: Math.random(),
@@ -30,7 +37,6 @@ class Index extends React.Component{
 
 	renderChart() {
 		const {data, dates} = this.state
-		console.log(data)
 		if (document.getElementById(`myChart${this.props.type}`)) {
 			if (this.state.chart) {
 				this.state.chart.destroy()
@@ -40,7 +46,7 @@ class Index extends React.Component{
 			const datasets = data.map((d, i) => {
 				return {
           label: `${MAP_DATA_TYPE[d.type]}数据`,
-          data: d.data || [],
+          data: d.data ? d.data.map(item => item * MAP_GIFT_MONEY[d.type]) : [],
           fill: false,
           borderColor: MAP_GIFT_STYLE[i]
         }
@@ -91,9 +97,8 @@ class Index extends React.Component{
     const userId = this.props.userId;
 		this.props.actions.getLiveDataForDay(userId, platform, day, this.props.type)
 			.then((res) => {
-			console.log(res.data)
 				this.setState({
-					data: res.data.data,
+					data: res.data.barrages || [],
 					dates: res.data.dates
 				}, () => {this.renderChart();})
 			})

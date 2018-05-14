@@ -53,7 +53,7 @@ class UsersInfo extends React.Component {
       render: (text, record) => {
         return (<div className={styles['username-avatar']}>
           <Avatar src={`http://localhost:8081/image/${record.avatar}`} />
-          <span><a href="">{text}</a></span>
+          <span>{text}</span>
         </div>)
       }
     }, {

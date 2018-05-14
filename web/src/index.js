@@ -33,6 +33,7 @@ ReactDOM.render(
 					<Route path="/liveRoom/:roomId" component={AdminPage}/>
 					<Route exact path="/homePage" component={HomePage}/>
 					<Route exact path="/sort" component={HomePage}/>
+					<Route exact path="/liveData/:roomId" component={HomePage}/>
 				</div>
 			</Router>
 		</AppContainer>

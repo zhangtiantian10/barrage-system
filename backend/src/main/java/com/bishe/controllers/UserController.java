@@ -1,10 +1,13 @@
 package com.bishe.controllers;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bishe.common.errors.ErrorCode;
 import com.bishe.common.exceptions.BadRequestException;
 import com.bishe.common.exceptions.ConflictException;
 import com.bishe.common.exceptions.NotFoundException;
 import com.bishe.common.exceptions.UserNotFoundException;
+import com.bishe.entities.CountBarrageAndUser;
 import com.bishe.entities.LiveRoom;
 import com.bishe.entities.User;
 import com.bishe.repositories.LiveRoomRepository;
@@ -27,7 +30,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -161,5 +170,21 @@ public class UserController {
         User user = userRepository.findOne(liveRoom.getUserId());
 
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/barrage/sort/{limit}", method = RequestMethod.GET)
+    public ResponseEntity sortBarrage(@PathVariable int limit) {
+        Pageable pageable = new PageRequest(0, limit);
+        Page users= userRepository.sortUserByBarrage(pageable);
+
+        return new ResponseEntity<>(users.getContent(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/gift/sort/{limit}", method = RequestMethod.GET)
+    public ResponseEntity sortGift(@PathVariable int limit) {
+        Pageable pageable = new PageRequest(0, limit);
+        Page users= userRepository.sortUserByGift(pageable);
+
+        return new ResponseEntity<>(users.getContent(), HttpStatus.OK);
     }
 }

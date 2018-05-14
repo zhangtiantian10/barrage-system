@@ -1,11 +1,11 @@
 import React from 'react'
-import BarrageChart from '../../constant/BarrageChart'
+import BarrageChart from '../BarrageChart/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Card, Icon, Avatar, Col, Button} from 'antd'
 import cssModules from 'react-css-modules'
 
-import * as action from "../action";
+import * as action from "./action";
 import styles from './index.scss'
 
 const MAP_PLATFORM = {
@@ -21,7 +21,6 @@ class LiveData extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     const {roomId, userId} = this.props
     this.props.actions.getUser(userId)
       .then((res) => {
@@ -41,9 +40,6 @@ class LiveData extends React.Component {
   render() {
     const {liveRoom, user, barrageCount, giftCount} = this.state
     return (user ? <div className={styles['live-data']}>
-      <div>
-        <a href="/admin/users"><Icon type="arrow-left" />返回</a>
-      </div>
       <div className={styles['user-info']}>
         <div className={styles['left-image']}>
           <div className={styles['header']}>

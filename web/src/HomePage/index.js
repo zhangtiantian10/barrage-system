@@ -5,20 +5,31 @@ import Cookies from 'js-cookie'
 
 import Header from '../constant/HeaderPage'
 import Page from './Page'
+import SortPage from "./SortPage"
+import LiveData from "../constant/LiveData";
 
 const MAP_VIEW = {
   homePage: Page,
-  sort: Page
+  sort: SortPage,
+  liveData: LiveData
 }
 
 class HomePage extends React.Component {
   state = {
-    viewType: ''
+    viewType: '',
+    roomId: 0,
+    userId: 0
   }
 
   componentWillMount() {
+    const {roomId} = this.props.match.params || 0
+    const userId = this.props.location.search.split('=')[1] || 0
+    const viewType = this.props.location.pathname.split('/')[1];
+
     this.setState({
-      viewType: this.props.location.pathname.split('/')[1]
+      viewType,
+      roomId,
+      userId
     })
   }
 
@@ -38,12 +49,14 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const user = Cookies.getJSON('user')
-    const View = MAP_VIEW[this.state.viewType] || HomePage
+    const {viewType, roomId, userId} = this.state
 
-    return (<div>
-      <Header type={this.state.viewType} user={user} username={user ? user.userName : ''} logout={this.logout.bind(this)}/>
-      <View/>
+    const user = Cookies.getJSON('user')
+    const View = MAP_VIEW[viewType] || HomePage
+
+    return (<div style={{background: '#f6f6f6', paddingBottom: 100}}>
+      <Header type={viewType === 'liveData' ? 'sort' : viewType} user={user} username={user ? user.userName : ''} logout={this.logout.bind(this)}/>
+      <View roomId={roomId} userId={userId}/>
     </div>)
   }
 }
