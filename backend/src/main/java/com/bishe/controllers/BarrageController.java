@@ -2,11 +2,9 @@ package com.bishe.controllers;
 
 import com.bishe.entities.Barrage;
 import com.bishe.entities.Gift;
+import com.bishe.entities.GiftPrice;
 import com.bishe.entities.LiveRoom;
-import com.bishe.repositories.BarrageRepository;
-import com.bishe.repositories.GiftRepository;
-import com.bishe.repositories.LiveRoomRepository;
-import com.bishe.repositories.UserRepository;
+import com.bishe.repositories.*;
 import com.bishe.services.DyBulletScreenClient;
 import com.bishe.services.DyThread;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,9 @@ public class BarrageController {
 
     @Autowired
     private GiftRepository giftRepository;
+
+    @Autowired
+    private GiftPriceRepository giftPriceRepository;
 
     private DyBulletScreenClient danmuClient;
 
@@ -115,9 +116,9 @@ public class BarrageController {
     public Map getDataByDate(String startDateStr, String endDateStr, String type, Long liveRoomId) throws ParseException {
         List<String> dates = new ArrayList<>();
         List<Integer> data = new ArrayList<>();
-        List<Integer> rockets = new ArrayList<>();
-        List<Integer> superRockets = new ArrayList<>();
-        List<Integer> planes = new ArrayList<>();
+        List<Double> rockets = new ArrayList<>();
+        List<Double> superRockets = new ArrayList<>();
+        List<Double> planes = new ArrayList<>();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -149,12 +150,14 @@ public class BarrageController {
             } else {
                 for (int i = 1; i <= 3; i++) {
                     int count = giftRepository.countAllByLiveRoomIdAndGiftStyleAndDateBetween(liveRoomId, i, startDate, endDate);
+                    double total = giftPriceRepository.findOneByGiftStyle(i).getPrice() * count;
+
                     if (i == 1) {
-                        superRockets.add(count);
+                        superRockets.add(total);
                     } else if (i == 2) {
-                        rockets.add(count);
+                        rockets.add(total);
                     } else {
-                        planes.add(count);
+                        planes.add(total);
                     }
                 }
             }
@@ -228,9 +231,9 @@ public class BarrageController {
         }
         String[] times = new String[24];
         List<Integer> data = new ArrayList<>();
-        List<Integer> rockets = new ArrayList<>();
-        List<Integer> superRockets = new ArrayList<>();
-        List<Integer> planes = new ArrayList<>();
+        List<Double> rockets = new ArrayList<>();
+        List<Double> superRockets = new ArrayList<>();
+        List<Double> planes = new ArrayList<>();
 
         Map barrage = new HashMap();
         Map rocket = new HashMap();
@@ -257,19 +260,18 @@ public class BarrageController {
             } else {
                 for (int j = 1; j <= 3; j++) {
                     int count = giftRepository.countAllByLiveRoomIdAndGiftStyleAndDateBetween(liveRoom.getId(), j, startTime, endTime);
+                    double total = giftPriceRepository.findOneByGiftStyle(j).getPrice() * count;
                     if (j == 1) {
-                        superRockets.add(count);
+                        superRockets.add(total);
                     } else if (j == 2) {
-                        rockets.add(count);
+                        rockets.add(total);
                     } else {
-                        planes.add(count);
+                        planes.add(total);
                     }
                 }
-//                lives = giftRepository.findAllByLiveRoomIdAndDateBetween(liveRoom.getId(), startTime, endTime);
             }
 
             times[i] = i + "点";
-//            data[i] = lives.size();
         }
         List barrages = new ArrayList();
 

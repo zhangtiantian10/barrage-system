@@ -73,7 +73,7 @@ class LiveData extends React.Component {
                     <img src="http://localhost:8081/image/d_1.png" width="50"/>
                     <div style={{display: 'inline-block', marginLeft: 10}}>
                       <div>礼物数量</div>
-                      <span>{giftCount}条</span>
+                      <span>{giftCount}元</span>
                     </div>
                   </div>
                 </td>

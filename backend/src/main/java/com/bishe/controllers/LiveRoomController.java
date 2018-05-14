@@ -7,6 +7,8 @@ import com.bishe.repositories.BarrageRepository;
 import com.bishe.repositories.GiftRepository;
 import com.bishe.repositories.LiveRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -90,9 +92,9 @@ public class LiveRoomController {
     @RequestMapping(value = "/barrageCount/{id}", method = RequestMethod.GET)
     public ResponseEntity getBarrageAndGiftCount(@PathVariable Long id) {
         int barrageCount = barrageRepository.countAllByLiveRoomId(id);
-        int giftCount = giftRepository.countAllByLiveRoomId(id);
+        double giftCount = (double)Math.round(giftRepository.sumGiftTotalPrice(id) * 100) / 100;
 
-        Map<String, Integer> result = new HashMap<>();
+        Map result = new HashMap<>();
 
         result.put("barrageCount", barrageCount);
         result.put("giftCount", giftCount);

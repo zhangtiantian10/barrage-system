@@ -46,7 +46,7 @@ class Index extends React.Component{
 			const datasets = data.map((d, i) => {
 				return {
           label: `${MAP_DATA_TYPE[d.type]}数据`,
-          data: d.data ? d.data.map(item => item * MAP_GIFT_MONEY[d.type]) : [],
+          data: d.data || [],
           fill: false,
           borderColor: MAP_GIFT_STYLE[i]
         }
