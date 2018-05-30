@@ -108,12 +108,26 @@ class Page extends React.Component {
     }]
 
     return (<div>
-      <div style={{width: 1000, margin: '20px auto'}}>
+      <div style={{width: 1200, margin: '20px auto'}}>
         <Carousel autoplay>
-          <div><img src="http://localhost:8081/image/p_1.jpg" width="1000" height="500"/></div>
-          <div><img src="http://localhost:8081/image/p_2.jpg" width="1000" height="500"/></div>
-          <div><img src="http://localhost:8081/image/p_3.jpg" width="1000" height="500"/></div>
+          <div><img src="http://localhost:8081/image/p_1.jpg" width="1200" height="500"/></div>
+          <div><img src="http://localhost:8081/image/p_2.jpg" width="1200" height="500"/></div>
+          <div><img src="http://localhost:8081/image/p_3.jpg" width="1200" height="500"/></div>
         </Carousel>
+        <div styleName="download">
+          <a styleName="platform-logo" href="https://github.com/zhangtiantian10/barrage-system/raw/master/qtDanmu.tar">
+            <img src="https://png.icons8.com/ios-glyphs/40/000000/mac-client.png"/>
+            <span>MAC弹幕插件下载</span>
+          </a>
+          <a styleName="platform-logo">
+            <img src="https://png.icons8.com/color/40/000000/windows-logo.png"/>
+            <span>Windows弹幕插件下载</span>
+          </a>
+          <a styleName="platform-logo">
+            <img src="https://png.icons8.com/color/40/000000/ubuntu.png"/>
+            <span>Ubuntu弹幕插件下载</span>
+          </a>
+        </div>
       </div>
       <div style={{width: 1200, margin: '10px auto', background: '#fff', border: '1px solid #efefef'}}>
         <div style={{width: '45%', display: 'inline-block', marginLeft: '20px'}}>
