@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GiftPriceRepository extends JpaRepository<GiftPrice,Long> {
     GiftPrice findOneByGiftStyle(int giftStyle);
+    GiftPrice findOneByName(String name);
 }

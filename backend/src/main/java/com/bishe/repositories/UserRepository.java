@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("select new com.bishe.entities.CountBarrageAndUser(u.id, l.id, u.avatar, u.name, u.userName, l.platform, l.roomId, count(b.liveRoomId)) from User u, LiveRoom l, Barrage b where l.id = b.liveRoomId and l.userId = u.id and u.role = 0 group by u.id, l.id order by count(b) desc")
     Page sortUserByBarrage(Pageable pageable);
 
-    @Query("select new com.bishe.entities.CountBarrageAndUser(u.id, l.id, u.avatar, u.name, u.userName, l.platform, l.roomId, sum(p.price)) from User u, GiftPrice p, Gift g, LiveRoom l where g.giftStyle = p.giftStyle and g.liveRoomId = l.id and l.userId = u.id and u.role = 0 group by l.id, u.id order by sum(p.price) desc ")
+    @Query("select new com.bishe.entities.CountBarrageAndUser(u.id, l.id, u.avatar, u.name, u.userName, l.platform, l.roomId, coalesce(sum(p.price),0)) from User u, GiftPrice p, Gift g, LiveRoom l where g.giftStyle = p.giftStyle and g.liveRoomId = l.id and l.userId = u.id and u.role = 0 group by l.id, u.id order by sum(p.price) desc ")
     Page sortUserByGift(Pageable pageable);
 }
 

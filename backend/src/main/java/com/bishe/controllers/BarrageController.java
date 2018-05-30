@@ -61,13 +61,16 @@ public class BarrageController {
     }
 
     public void keepSendGift(Gift gift) {
-        System.out.println(gift);
-        giftRepository.save(gift);
-        LiveRoom liveRoom = liveRoomRepository.findOne(gift.getLiveRoomId());
-        Map result = new HashMap();
-        result.put("type", "gift");
-        result.put("gift", gift);
-        this.template.convertAndSend("/message/barrage/user/" + liveRoom.getUserId() + "/liveRoom/" + liveRoom.getId(), result);
+        GiftPrice giftPrice = giftPriceRepository.findOneByGiftStyle(gift.getGiftStyle());
+        if (giftPrice != null) {
+            gift.setGiftName(giftPrice.getName());
+            giftRepository.save(gift);
+            LiveRoom liveRoom = liveRoomRepository.findOne(gift.getLiveRoomId());
+            Map result = new HashMap();
+            result.put("type", "gift");
+            result.put("gift", gift);
+            this.template.convertAndSend("/message/barrage/user/" + liveRoom.getUserId() + "/liveRoom/" + liveRoom.getId(), result);
+        }
     }
 
     @MessageMapping("/disconnect")
@@ -119,6 +122,7 @@ public class BarrageController {
         List<Double> rockets = new ArrayList<>();
         List<Double> superRockets = new ArrayList<>();
         List<Double> planes = new ArrayList<>();
+        List<Double> others = new ArrayList<>();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -147,19 +151,24 @@ public class BarrageController {
                 barrage.put("type", "barrage");
                 data.add(a.size());
                 barrage.put("data", data);
-            } else {
-                for (int i = 1; i <= 3; i++) {
-                    int count = giftRepository.countAllByLiveRoomIdAndGiftStyleAndDateBetween(liveRoomId, i, startDate, endDate);
-                    double total = giftPriceRepository.findOneByGiftStyle(i).getPrice() * count;
+            } else if (type.equals("gift")){
+                String[] giftNames = {"超级火箭", "火箭", "飞机"};
+                double subtotal = giftRepository.sumGiftTotalPriceDateBetween(liveRoomId, startDate, endDate);
+                for (int i = 0; i < giftNames.length; i++) {
+                    int count = giftRepository.countAllByLiveRoomIdAndGiftNameAndDateBetween(liveRoomId, giftNames[i], startDate, endDate);
+                    double total = giftPriceRepository.findOneByName(giftNames[i]).getPrice() * count;
 
-                    if (i == 1) {
+                    subtotal = subtotal - total;
+                    if (i == 0) {
                         superRockets.add(total);
-                    } else if (i == 2) {
+                    } else if (i == 1) {
                         rockets.add(total);
                     } else {
                         planes.add(total);
                     }
                 }
+
+                others.add(subtotal);
             }
             dates.add(compare);
             flag ++;
@@ -169,6 +178,7 @@ public class BarrageController {
             barrages.add(barrage);
 
         } else {
+            Map other = new HashMap();
             superRocket.put("type", "superRocket");
             superRocket.put("data", superRockets);
 
@@ -178,9 +188,13 @@ public class BarrageController {
             plane.put("type", "plane");
             plane.put("data", planes);
 
+            other.put("type", "other");
+            other.put("data", others);
+
             barrages.add(superRocket);
             barrages.add(rocket);
             barrages.add(plane);
+            barrages.add(other);
         }
 
         Map result = new HashMap();
@@ -234,6 +248,7 @@ public class BarrageController {
         List<Double> rockets = new ArrayList<>();
         List<Double> superRockets = new ArrayList<>();
         List<Double> planes = new ArrayList<>();
+        List<Double> others = new ArrayList<>();
 
         Map barrage = new HashMap();
         Map rocket = new HashMap();
@@ -257,18 +272,24 @@ public class BarrageController {
                 barrage.put("type", "barrage");
                 data.add(lives.size());
                 barrage.put("data", data);
-            } else {
-                for (int j = 1; j <= 3; j++) {
-                    int count = giftRepository.countAllByLiveRoomIdAndGiftStyleAndDateBetween(liveRoom.getId(), j, startTime, endTime);
-                    double total = giftPriceRepository.findOneByGiftStyle(j).getPrice() * count;
-                    if (j == 1) {
+            } else if (type.equals("gift")){
+                String[] giftNames = {"超级火箭", "火箭", "飞机"};
+                double subtotal = giftRepository.sumGiftTotalPriceDateBetween(liveRoom.getId(), startTime, endTime);
+
+                for (int j = 0; j < giftNames.length; j++) {
+                    int count = giftRepository.countAllByLiveRoomIdAndGiftNameAndDateBetween(liveRoom.getId(), giftNames[j], startTime, endTime);
+                    double total = giftPriceRepository.findOneByName(giftNames[j]).getPrice() * count;
+                    subtotal = subtotal - total;
+                    if (j == 0) {
                         superRockets.add(total);
-                    } else if (j == 2) {
+                    } else if (j == 1) {
                         rockets.add(total);
                     } else {
                         planes.add(total);
                     }
                 }
+
+                others.add(subtotal);
             }
 
             times[i] = i + "点";
@@ -289,9 +310,14 @@ public class BarrageController {
             plane.put("type", "plane");
             plane.put("data", planes);
 
+            Map other = new HashMap();
+            other.put("type", "other");
+            other.put("data", others);
+
             barrages.add(superRocket);
             barrages.add(rocket);
             barrages.add(plane);
+            barrages.add(other);
         }
 
         Map result = new HashMap();

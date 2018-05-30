@@ -49,6 +49,8 @@ public class DyBulletScreenClient
     public BarrageController barrageController;
 
     private Long liveRoomId;
+
+    private int roomId;
     
     public DyBulletScreenClient(BarrageController barrageController){
         this.barrageController = barrageController;
@@ -72,6 +74,7 @@ public class DyBulletScreenClient
     	this.joinGroup(roomId, groupId);
     	//设置客户端就绪标记为就绪状态
     	readyFlag = true;
+        this.roomId = roomId;
     	this.liveRoomId = liveRoomId;
     }
 
@@ -258,14 +261,26 @@ public class DyBulletScreenClient
                 Barrage barrage = new Barrage(liveRoomId, msg.get("nn").toString(), msg.get("txt").toString(), liveRoomId);
                 barrage.setDate(new Date());
                 barrageController.keepSendBarrage(barrage);
-			} else if(msg.get("type").equals("dgb")){//赠送礼物信息
-				System.out.println("礼物消息===>" + msg.toString());
-                Gift gift = new Gift(Integer.parseInt(msg.get("gs").toString()), liveRoomId, msg.get("nn").toString());
+			} else if(msg.get("type").equals("spbc")){//赠送礼物信息
+                if (Integer.parseInt(msg.get("drid").toString()) == roomId) {
+                    System.out.println("大礼物消息===>" + msg.toString());
+                    Gift gift = new Gift(Integer.parseInt(msg.get("gfid").toString()), liveRoomId, msg.get("nn").toString());
+                    gift.setDate(new Date());
+
+                    barrageController.keepSendGift(gift);
+                } else {
+                    System.out.println("非本人礼物===>" + msg.toString());
+                }
+			} else if (msg.get("type").equals("dgb")) {
+                System.out.println("小礼物信息===>" + msg.toString());
+                Gift gift = new Gift(Integer.parseInt(msg.get("gfid").toString()), liveRoomId, msg.get("nn").toString());
                 gift.setDate(new Date());
-                gift.setHits(Integer.parseInt(msg.get("hits").toString()));
+                if (msg.get("hits") != null){
+                    gift.setHits(Integer.parseInt(msg.get("hits").toString()));
+                }
 
                 barrageController.keepSendGift(gift);
-			} else {
+            } else{
 				System.out.println("其他消息===>" + msg.toString());
 			}
 			

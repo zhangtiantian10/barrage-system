@@ -7,8 +7,6 @@ import cssModules from 'react-css-modules'
 import * as action from './action'
 import styles from './index.scss'
 
-const MAP_GIFT_STYLE = ['超级火箭', '火箭', '飞机']
-
 class Barrage extends React.Component {
 
 	state = {
@@ -22,8 +20,9 @@ class Barrage extends React.Component {
 			this.state.textarea += `<font color="aqua">${sender}: </font>${content}<br/>`
 		} else {
 			const {gift} = nextProps.data
+			const hits = gift.hits === 0 ? '' : gift.hits + "连击"
 
-			this.state.textarea += `<span style="font-size: 16px; color: aqua;">${gift.sender}</span><span style="font-size: 16px;">送出${MAP_GIFT_STYLE[gift.giftStyle - 1]}  </span><span style="color: yellowgreen; font-size: 16px;">${gift.hits}连击</span> <br/>`
+			this.state.textarea += `<span style="font-size: 16px; color: aqua;">${gift.sender}</span><span style="font-size: 16px;">送出${gift.giftName}  </span><span style="color: yellowgreen; font-size: 16px;">${hits}</span> <br/>`
 		}
 		document.all.textarea.scrollTop = document.all.textarea.scrollHeight
 

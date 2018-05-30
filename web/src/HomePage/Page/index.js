@@ -115,15 +115,15 @@ class Page extends React.Component {
           <div><img src="http://localhost:8081/image/p_3.jpg" width="1200" height="500"/></div>
         </Carousel>
         <div styleName="download">
-          <a styleName="platform-logo" href="https://github.com/zhangtiantian10/barrage-system/raw/master/qtDanmu.tar">
+          <a styleName="platform-logo" href="https://github.com/zhangtiantian10/barrage-system/raw/master/Danmu.tar">
             <img src="https://png.icons8.com/ios-glyphs/40/000000/mac-client.png"/>
             <span>MAC弹幕插件下载</span>
           </a>
-          <a styleName="platform-logo">
+          <a styleName="platform-logo" href="https://github.com/zhangtiantian10/barrage-system/raw/master/Danmu.tar">
             <img src="https://png.icons8.com/color/40/000000/windows-logo.png"/>
             <span>Windows弹幕插件下载</span>
           </a>
-          <a styleName="platform-logo">
+          <a styleName="platform-logo" href="https://github.com/zhangtiantian10/barrage-system/raw/master/Danmu-ubuntu.tar.xz">
             <img src="https://png.icons8.com/color/40/000000/ubuntu.png"/>
             <span>Ubuntu弹幕插件下载</span>
           </a>

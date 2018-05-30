@@ -20,6 +20,8 @@ public class Gift {
 
     private int hits;
 
+    private String giftName;
+
     public int getHits() {
         return hits;
     }
@@ -35,6 +37,14 @@ public class Gift {
         this.giftStyle = giftStyle;
         this.liveRoomId = liveRoomId;
         this.sender = sender;
+    }
+
+    public String getGiftName() {
+        return giftName;
+    }
+
+    public void setGiftName(String giftName) {
+        this.giftName = giftName;
     }
 
     public Date getDate() {
