@@ -13,7 +13,7 @@ gradle
 .idea/dictionaries
 .idea
 
-src/main/resources/static
+#src/main/resources/static
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
